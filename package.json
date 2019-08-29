@@ -1,0 +1,30 @@
+{
+  "private": true,
+  "name": "road-to-rome",
+  "version": "0.0.0",
+  "license": "MIT",
+  "scripts": {
+    "format": "lint-staged"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "dependencies": {
+    "react": "^16.9.0"
+  },
+  "optionalDependencies": {
+    "@nice-move/eslint-config-react": "^0.0.2",
+    "@nice-move/prettier-config": "^0.0.3",
+    "babel-eslint": "^10.0.3",
+    "eslint": "^5.16.0",
+    "husky": "^3.0.4",
+    "lint-staged": "^9.2.5",
+    "prettier": "^1.18.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "prettier": "@nice-move/prettier-config"
+}
