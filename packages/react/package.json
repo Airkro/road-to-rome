@@ -1,0 +1,17 @@
+{
+  "name": "@eaphone/road-to-rome-react",
+  "version": "0.0.0",
+  "license": "MIT",
+  "author": {
+    "name": "Eric Chen",
+    "email": "airkro@qq.com"
+  },
+  "main": "index.js",
+  "peerDependencies": {
+    "react": ">=16.8.0"
+  },
+  "publishConfig": {
+    "registry": "http://npm.eaphonetech.com"
+  },
+  "sideEffects": false
+}

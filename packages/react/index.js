@@ -4,10 +4,11 @@ export default function DecentralizedRoutes({
   handleLazyError,
   lazyContext,
   lazyConfig,
-  lazyNormalize,
+  lazyNormalize = name =>
+    name.replace(/^\.|\/(index\.async|route\.config)\.jsx?$/g, ''),
 
   syncContext,
-  syncNormalize,
+  syncNormalize = name => name.replace(/^\.|\/index\.sync\.jsx?$/g, ''),
 
   // Page403,
   Page404
@@ -23,6 +24,6 @@ export default function DecentralizedRoutes({
       normalize: lazyNormalize,
       handleError: handleLazyError
     }),
-    { component: Page404 }
+    ...(Page404 ? [{ component: Page404 }] : undefined)
   ];
 }
