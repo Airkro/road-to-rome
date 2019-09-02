@@ -1,3 +1,6 @@
+import { createElement } from 'react';
+import { Switch, Route } from 'react-router-dom';
+
 import { lazyImportRoutes, syncImportRoutes } from './lib';
 
 export default function DecentralizedRoutes({
@@ -13,17 +16,23 @@ export default function DecentralizedRoutes({
   // Page403,
   Page404
 }) {
-  return [
-    ...syncImportRoutes({
-      context: syncContext,
-      normalize: syncNormalize
-    }),
-    ...lazyImportRoutes({
-      config: lazyConfig,
-      context: lazyContext,
-      normalize: lazyNormalize,
-      handleError: handleLazyError
-    }),
-    ...(Page404 ? [{ component: Page404 }] : undefined)
-  ];
+  return createElement(
+    Switch,
+    null,
+    [
+      ...syncImportRoutes({
+        context: syncContext,
+        normalize: syncNormalize
+      }),
+      ...lazyImportRoutes({
+        config: lazyConfig,
+        context: lazyContext,
+        normalize: lazyNormalize,
+        handleError: handleLazyError
+      }),
+      ...(Page404 ? [{ component: Page404, key: '/404' }] : undefined)
+    ].map(config =>
+      createElement(Route, { ...config, key: config.path || config.key })
+    )
+  );
 }
