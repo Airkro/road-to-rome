@@ -8,7 +8,7 @@ export default function DecentralizedRoutes({
   lazyContext,
   lazyConfig,
   lazyNormalize = name =>
-    name.replace(/^\.|\/(index\.async|route\.config)\.jsx?$/g, ''),
+    name.replace(/^\.|\/(index\.lazy|route\.config)\.jsx?$/g, ''),
 
   syncContext,
   syncNormalize = name => name.replace(/^\.|\/index\.sync\.jsx?$/g, ''),
@@ -16,22 +16,24 @@ export default function DecentralizedRoutes({
   // Page403,
   Page404
 }) {
+  const routes = [
+    ...syncImportRoutes({
+      context: syncContext,
+      normalize: syncNormalize
+    }),
+    ...lazyImportRoutes({
+      config: lazyConfig,
+      context: lazyContext,
+      normalize: lazyNormalize,
+      handleError: handleLazyError
+    }),
+    ...(Page404 ? [{ component: Page404, key: '/404' }] : undefined)
+  ];
+  console.log(routes);
   return createElement(
     Switch,
     null,
-    [
-      ...syncImportRoutes({
-        context: syncContext,
-        normalize: syncNormalize
-      }),
-      ...lazyImportRoutes({
-        config: lazyConfig,
-        context: lazyContext,
-        normalize: lazyNormalize,
-        handleError: handleLazyError
-      }),
-      ...(Page404 ? [{ component: Page404, key: '/404' }] : undefined)
-    ].map(config =>
+    routes.map(config =>
       createElement(Route, { ...config, key: config.path || config.key })
     )
   );
