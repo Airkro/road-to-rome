@@ -1,67 +1,32 @@
+import { constantCase } from 'constant-case';
 import { createElement, lazy } from 'react';
 
-export function lazyImportRoutes({
-  context,
-  config,
-  normalize,
-  handleError = error => {
-    console.error(error);
-    return { default: null };
-  }
-}) {
-  const configGroup = Object.keys(config).reduce(
-    (io, name) => ({ ...io, [normalize(name)]: name }),
-    {}
-  );
-
-  return Object.entries(context).map(([name, item]) => {
-    const namespace = normalize(name);
-
-    const configPath = configGroup[namespace];
-
-    const Component = lazy(() => item().catch(handleError));
-
-    const {
-      default: {
-        path = namespace,
-        sensitive,
-        strict,
-        exact = true,
-        meta = {}
-      } = {}
-    } = configPath ? config[configPath] : {};
-
-    return {
-      path,
-      exact,
-      strict,
-      sensitive,
-      render: routeProps => createElement(Component, { ...routeProps, meta })
-    };
-  });
+export function handleError(error) {
+  console.error(error);
+  return { default: null };
 }
 
-export function syncImportRoutes({ context, normalize }) {
-  return Object.entries(context).map(
-    ([
-      name,
-      {
-        default: Component,
-        route: {
-          path = normalize(name),
-          exact = true,
-          strict,
-          sensitive,
-          meta
-        } = {}
-      }
-    ]) => ({
-      Component,
+export function contextMapper(context, onError) {
+  return Object.entries(context).map(([filePath, modules]) => [
+    filePath
+      .replace('.', '')
+      .replace(/(\d+)?@/g, '')
+      .replace(/\/(index\.(lazy|sync)|route\.config)\.jsx?$/, ''),
+    onError ? lazy(() => modules().catch(onError)) : modules.default
+  ]);
+}
+
+export function routeMerge(components, configs) {
+  return Object.entries(components).map(([key, component]) => {
+    const { [key]: { meta = {}, path = key, exact = true } = {} } = configs;
+    const uniqueId = constantCase(key);
+    return {
+      key: uniqueId,
       path,
       exact,
-      strict,
-      sensitive,
-      render: routeProps => createElement(Component, { ...routeProps, meta })
-    })
-  );
+      render(routeProps) {
+        return createElement(component, { ...routeProps, meta, uniqueId });
+      }
+    };
+  });
 }

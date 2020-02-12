@@ -1,14 +1,4 @@
 {
   "root": true,
-  "extends": "@nice-move/eslint-config-base",
-  "rules": {
-    "implicit-arrow-linebreak": "off",
-    "object-curly-newline": "off",
-    "import/no-extraneous-dependencies": [
-      "error",
-      {
-        "devDependencies": true
-      }
-    ]
-  }
+  "extends": "@nice-move/eslint-config-base"
 }

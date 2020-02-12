@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es2019",
-    "allowSyntheticDefaultImports": false,
+    "target": "es2020",
+    "strictNullChecks": true,
     "baseUrl": "./"
   },
   "exclude": [
