@@ -1,10 +1,7 @@
 import { constantCase } from 'constant-case';
 import { createElement, lazy } from 'react';
 
-export function handleError(error) {
-  console.error(error);
-  return { default: null };
-}
+import { captureException, withScope } from '@sentry/minimal';
 
 export function contextMapper(context, onError) {
   return Object.entries(context).map(([filePath, modules]) => [
@@ -12,7 +9,19 @@ export function contextMapper(context, onError) {
       .replace('.', '')
       .replace(/(\d+)?@/g, '')
       .replace(/\/(index\.(lazy|sync)|route\.config)\.jsx?$/, ''),
-    onError ? lazy(() => modules().catch(onError)) : modules.default
+    onError
+      ? lazy(() =>
+          modules().catch(error => {
+            console.error(error);
+            withScope(scope => {
+              scope.setTag('scene', 'PageLazyLoad');
+              captureException(error);
+            });
+
+            return { default: onError };
+          })
+        )
+      : modules.default
   ]);
 }
 

@@ -1,6 +1,6 @@
 {
-  "name": "@eaphone/road-to-rome-react",
-  "version": "0.4.2",
+  "name": "@eaphone/road-to-rome-antd",
+  "version": "0.0.1",
   "license": "MIT",
   "author": {
     "name": "Eric Chen",
@@ -8,13 +8,9 @@
   },
   "main": "index.js",
   "sideEffects": false,
-  "dependencies": {
-    "@sentry/minimal": "^5.12.5",
-    "constant-case": "^3.0.3",
-    "flat": "^5.0.0",
-    "nanoid": "^2.1.11"
-  },
   "peerDependencies": {
+    "@eaphone/road-to-rome-react": "^0.4.0",
+    "antd": "3.26.12",
     "react": "^16.8.0"
   },
   "publishConfig": {

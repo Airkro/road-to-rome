@@ -1,9 +1,9 @@
 import nanoID from 'nanoid';
 import { unflatten } from 'flat';
 import { constantCase } from 'constant-case';
-import { handleError, contextMapper, routeMerge } from './lib';
+import { contextMapper, routeMerge } from './lib';
 
-export function ModuleMapper({ lazy, sync, onError = handleError }) {
+export function ModuleMapper({ lazy, sync, onError = () => null }) {
   return Object.fromEntries([
     ...contextMapper(sync),
     ...contextMapper(lazy, onError)
@@ -25,7 +25,6 @@ export function RouteMapper({ Page403, Page404, components, configs }) {
       },
       Page404 && {
         key: '404',
-        path: '/404',
         exact: true,
         component: Page404
       }
@@ -35,19 +34,27 @@ export function RouteMapper({ Page403, Page404, components, configs }) {
 
 function toTreeData(data) {
   return Object.values(data).map(
-    ({ key = nanoID(5), title = nanoID(5), ...child }) => {
+    ({ key: value = nanoID(5), title = nanoID(5), ...child }) => {
       const children = toTreeData(child);
-      return children.length > 0 ? { key, title, children } : { key, title };
+      return children.length > 0
+        ? { value, title, children }
+        : { value, title };
     }
   );
 }
 
-export function TreeMapper(configs) {
+export function TreeMapper(configs, includes = []) {
   const map = Object.fromEntries(
-    Object.entries(configs).map(([key, { meta: { title } }]) => [
-      key,
-      { key: constantCase(key), title }
-    ])
+    (includes.length > 0
+      ? Object.entries(configs).filter(([key]) => includes.includes(key))
+      : Object.entries(configs)
+    )
+      // eslint-disable-next-line no-unused-vars
+      .filter(([key, { hideInMenu = false }]) => !hideInMenu)
+      .map(([key, { meta: { title } = {} }]) => [
+        key,
+        { key: constantCase(key), title }
+      ])
   );
 
   const tree = unflatten(map, {
