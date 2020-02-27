@@ -14,22 +14,25 @@ export function ConfigMapper({ config }) {
   return Object.fromEntries(contextMapper(config));
 }
 
-export function RouteMapper({ Page403, Page404, components, configs }) {
-  return routeMerge(components, configs)
-    .concat(
-      Page403 && {
-        key: '403',
-        path: '/403',
-        exact: true,
-        component: Page403
-      },
-      Page404 && {
-        key: '404',
-        exact: true,
-        component: Page404
-      }
-    )
-    .filter(Boolean);
+export function RouteMapper({
+  Page403 = () => 403,
+  Page404 = () => 404,
+  components,
+  configs
+}) {
+  return routeMerge(components, configs).concat(
+    {
+      key: '403',
+      path: '/403',
+      exact: true,
+      component: Page403
+    },
+    {
+      key: '404',
+      exact: true,
+      component: Page404
+    }
+  );
 }
 
 function toTreeData(data) {
