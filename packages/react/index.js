@@ -1,4 +1,4 @@
-import nanoID from 'nanoid';
+import { nanoid } from 'nanoid';
 import { unflatten } from 'flat';
 import { constantCase } from 'constant-case';
 import { contextMapper, routeMerge } from './lib';
@@ -6,7 +6,7 @@ import { contextMapper, routeMerge } from './lib';
 export function ModuleMapper({ lazy, sync, onError = () => null }) {
   return Object.fromEntries([
     ...contextMapper(sync),
-    ...contextMapper(lazy, onError)
+    ...contextMapper(lazy, onError),
   ]);
 }
 
@@ -18,31 +18,31 @@ export function RouteMapper({
   Page403 = () => 403,
   Page404 = () => 404,
   components,
-  configs
+  configs,
 }) {
   return routeMerge(components, configs).concat(
     {
       key: '403',
       path: '/403',
       exact: true,
-      component: Page403
+      component: Page403,
     },
     {
       key: '404',
       exact: true,
-      component: Page404
-    }
+      component: Page404,
+    },
   );
 }
 
 function toTreeData(data) {
   return Object.values(data).map(
-    ({ key: value = nanoID(5), title = nanoID(5), ...child }) => {
+    ({ key: value = nanoid(5), title = nanoid(5), ...child }) => {
       const children = toTreeData(child);
       return children.length > 0
         ? { value, title, children }
         : { value, title };
-    }
+    },
   );
 }
 
@@ -56,13 +56,13 @@ export function TreeMapper(configs, includes = []) {
       .filter(([key, { hideInMenu = false }]) => !hideInMenu)
       .map(([key, { meta: { title } = {} }]) => [
         key,
-        { key: constantCase(key), title }
-      ])
+        { key: constantCase(key), title },
+      ]),
   );
 
   const tree = unflatten(map, {
     safe: true,
-    delimiter: '/'
+    delimiter: '/',
   })[0];
 
   return toTreeData(tree);

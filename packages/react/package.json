@@ -1,6 +1,6 @@
 {
   "name": "@eaphone/road-to-rome-react",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "license": "MIT",
   "author": {
     "name": "Eric Chen",
@@ -9,13 +9,13 @@
   "main": "index.js",
   "sideEffects": false,
   "dependencies": {
-    "@sentry/minimal": "^5.12.5",
+    "@sentry/minimal": "^5.15.5",
     "constant-case": "^3.0.3",
     "flat": "^5.0.0",
-    "nanoid": "^2.1.11"
+    "nanoid": "^3.1.3"
   },
   "peerDependencies": {
-    "react": "^16.8.0"
+    "react": "^16.13.1"
   },
   "publishConfig": {
     "registry": "https://npm.eaphonetech.com"

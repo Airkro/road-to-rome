@@ -1,6 +1,6 @@
 {
   "name": "@eaphone/road-to-rome-antd",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "license": "MIT",
   "author": {
     "name": "Eric Chen",
@@ -9,9 +9,9 @@
   "main": "index.js",
   "sideEffects": false,
   "peerDependencies": {
-    "@eaphone/road-to-rome-react": "^0.4.0",
-    "antd": "3.26.12",
-    "react": "^16.8.0"
+    "@eaphone/road-to-rome-react": "^0.4.4",
+    "antd": "^4.1.5",
+    "react": "^16.13.1"
   },
   "publishConfig": {
     "registry": "https://npm.eaphonetech.com"
