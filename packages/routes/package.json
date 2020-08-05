@@ -1,0 +1,23 @@
+{
+  "name": "@road-to-rome/routes",
+  "version": "0.0.0",
+  "license": "MIT",
+  "author": {
+    "name": "Eric Chen",
+    "email": "airkro@qq.com"
+  },
+  "homepage": "https://github.com/road-to-rome/road-to-rome#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/road-to-rome/road-to-rome.git",
+    "directory": "packages/routes"
+  },
+  "bugs": {
+    "url": "https://github.com/road-to-rome/road-to-rome/issues"
+  },
+  "main": "index.js",
+  "sideEffects": false,
+  "engines": {
+    "node": "^10.18 || >=12"
+  }
+}
