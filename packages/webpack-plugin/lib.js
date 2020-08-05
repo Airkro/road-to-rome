@@ -27,7 +27,11 @@ function createRoutes({ globs, cwd, filter = () => true }) {
       paths
         .map((filePath) => {
           const name = pascalCase(filePath.split('/')[0]);
-          const path = slash(relative(__filename, resolve(cwd, filePath)));
+
+          const from = resolve(__dirname, '../routes');
+          const to = resolve(cwd, filePath);
+          const path = slash(relative(from, to));
+
           return [name, `import ${name} from '${path}';`];
         })
         .filter(([name]) => filter(name)),
