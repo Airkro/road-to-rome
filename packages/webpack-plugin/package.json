@@ -1,0 +1,35 @@
+{
+  "name": "@road-to-rome/webpack-plugin",
+  "version": "0.0.0",
+  "description": "Automatically generate routes by filename",
+  "license": "MIT",
+  "author": {
+    "name": "Eric Chen",
+    "email": "airkro@qq.com"
+  },
+  "homepage": "https://github.com/road-to-rome/road-to-rome/tree/master/packages/webpack-plugin#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/road-to-rome/road-to-rome.git",
+    "directory": "packages/webpack-plugin"
+  },
+  "bugs": {
+    "url": "https://github.com/road-to-rome/road-to-rome/issues"
+  },
+  "main": "index.js",
+  "files": [
+    "lib.js"
+  ],
+  "dependencies": {
+    "chokidar": "^3.4.1",
+    "globby": "^11.0.1",
+    "lodash": "^4.17.19",
+    "pascal-case": "^3.1.1",
+    "schema-utils": "^2.7.0",
+    "slash": "^3.0.0",
+    "webpack-virtual-modules": "^0.2.2"
+  },
+  "engines": {
+    "node": "^10.18 || >=12"
+  }
+}

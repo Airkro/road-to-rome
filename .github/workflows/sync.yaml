@@ -1,0 +1,21 @@
+name: Sync
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  sync:
+    strategy:
+      matrix:
+        site:
+          - https://cnpmjs.org
+          - https://npm.taobao.org
+        package:
+          - routes
+          - webpack-plugin
+    runs-on: macos-latest
+    steps:
+      - name: request
+        run: curl -X PUT ${{ matrix.site }}/sync/@road-to-rome/${{ matrix.package }}?sync_upstream=true
