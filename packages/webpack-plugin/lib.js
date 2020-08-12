@@ -6,12 +6,10 @@ const debounce = require('lodash/debounce');
 const globby = require('globby');
 const slash = require('slash');
 
-function createWatcher({ globs, cwd, depth, callback }) {
-  const action = debounce(callback, 1000, {
-    trailing: true,
-  });
+function createWatcher({ cwd, depth, callback }) {
+  const action = debounce(callback, 1000, { trailing: true });
 
-  return watch(`*/${globs}`, {
+  return watch(`**/route.config.js`, {
     awaitWriteFinish: true,
     cwd,
     depth,
@@ -35,22 +33,23 @@ const maker = {
   },
 };
 
-function createRoutes({ globs, cwd, depth: deep, mapper }) {
-  return globby(`**/${globs}`, { cwd, deep, onlyFiles: true }).then((paths) => {
-    const data = paths.map((filePath) => {
-      const index = filePath
-        .split('/')
-        .slice(0, -1)
-        .map((item) => item.replace(/^(\d+)?@/, ''));
+function createRoutes({ cwd, depth: deep, mapper }) {
+  return globby(`**/route.config.js`, { cwd, deep, onlyFiles: true }).then(
+    (paths) => {
+      const data = paths.map((filePath) => {
+        const index = filePath
+          .split('/')
+          .slice(0, -1)
+          .map((item) => item.replace(/^(\d+)?@/, ''));
 
-      const to = resolve(cwd, filePath);
-      const path = slash(relative(from, to));
-      const name = pascalCase(index.join('-'));
+        const to = resolve(cwd, filePath);
+        const path = slash(relative(from, to));
+        const name = pascalCase(index.join('-'));
 
-      return [name, index, `import ${name} from '${path}';`];
-    });
+        return [name, index, `import ${name} from '${path}';`];
+      });
 
-    return `// timestamp: ${new Date().getTime()}
+      return `// timestamp: ${new Date().getTime()}
 
 ${data.map((item) => item[2]).join('\r\n')}
 
@@ -59,7 +58,8 @@ export const routes = ${mapper(data)};
 if (process.env.NODE_ENV !== 'production') {
   console.log('Routes generate by \`road-to-rome\`', routes);
 }`;
-  });
+    },
+  );
 }
 
 module.exports = { createWatcher, createRoutes, maker };

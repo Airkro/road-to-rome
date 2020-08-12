@@ -44,9 +44,9 @@ module.exports = class RoadToRomePlugin {
     this.plugin = new VirtualModulesPlugin();
   }
 
-  inject({ cwd, globs, depth }) {
+  inject({ cwd, depth }) {
     const { mapper } = this;
-    return createRoutes({ globs, cwd, depth, mapper })
+    return createRoutes({ cwd, depth, mapper })
       .then((content) => {
         this.plugin.writeModule(
           `node_modules/@road-to-rome/routes/index.js`,
@@ -61,7 +61,6 @@ module.exports = class RoadToRomePlugin {
 
     const options = {
       cwd: resolve(compiler.context, this.pagePath),
-      globs: 'route.config.js',
       depth: this.depth,
     };
 
