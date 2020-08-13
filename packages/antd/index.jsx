@@ -17,21 +17,15 @@ const reloadBtn = (
   </Button>
 );
 
-export function ModuleMapper({ sync, lazy }) {
-  return mMapper({
-    sync,
-    lazy,
-    onError() {
-      return (
-        <Result
-          extra={reloadBtn}
-          status="500"
-          subTitle="请刷新或联系技术支持"
-          title="模块功能加载失败"
-        />
-      );
-    },
-  });
+export function PageError() {
+  return (
+    <Result
+      extra={reloadBtn}
+      status="500"
+      subTitle="请刷新或联系技术支持"
+      title="模块功能加载失败"
+    />
+  );
 }
 
 // eslint-disable-next-line react/prop-types
@@ -68,6 +62,14 @@ export function Page404({ history: { goBack } }) {
       title="目标页面不存在"
     />
   );
+}
+
+export function ModuleMapper({ sync, lazy }) {
+  return mMapper({
+    sync,
+    lazy,
+    onError: PageError,
+  });
 }
 
 export function RouteMapper({ components, configs }) {
