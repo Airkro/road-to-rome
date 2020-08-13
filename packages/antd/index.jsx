@@ -4,7 +4,7 @@ import { Result, Button } from 'antd';
 
 import {
   ModuleMapper as mMapper,
-  RouteMapper as rMapper
+  RouteMapper as rMapper,
 } from '@eaphone/road-to-rome-react';
 
 function reload() {
@@ -30,47 +30,51 @@ export function ModuleMapper({ sync, lazy }) {
           title="模块功能加载失败"
         />
       );
-    }
+    },
   });
+}
+
+// eslint-disable-next-line react/prop-types
+export function Page403({ history: { goBack } }) {
+  const btn = (
+    <Button onClick={goBack} type="primary">
+      返回
+    </Button>
+  );
+
+  return (
+    <Result
+      extra={btn}
+      status="403"
+      subTitle="请检查您的访问地址"
+      title="没有此页面的访问权限"
+    />
+  );
+}
+
+// eslint-disable-next-line react/prop-types
+export function Page404({ history: { goBack } }) {
+  const btn = (
+    <Button onClick={goBack} type="primary">
+      返回
+    </Button>
+  );
+
+  return (
+    <Result
+      extra={btn}
+      status="404"
+      subTitle="请检查您的访问地址"
+      title="目标页面不存在"
+    />
+  );
 }
 
 export function RouteMapper({ components, configs }) {
   return rMapper({
     components,
     configs,
-    // eslint-disable-next-line react/prop-types
-    Page403({ history: { goBack } }) {
-      const btn = (
-        <Button onClick={goBack} type="primary">
-          返回
-        </Button>
-      );
-
-      return (
-        <Result
-          extra={btn}
-          status="403"
-          subTitle="请检查您的访问地址"
-          title="没有此页面的访问权限"
-        />
-      );
-    },
-    // eslint-disable-next-line react/prop-types
-    Page404({ history: { goBack } }) {
-      const btn = (
-        <Button onClick={goBack} type="primary">
-          返回
-        </Button>
-      );
-
-      return (
-        <Result
-          extra={btn}
-          status="404"
-          subTitle="请检查您的访问地址"
-          title="目标页面不存在"
-        />
-      );
-    }
+    Page403,
+    Page404,
   });
 }
