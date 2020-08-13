@@ -32,11 +32,7 @@ new Router({ routes });
 const RoadToRomePlugin = require('@road-to-rome/webpack-plugin');
 
 module.exports = {
-  plugins: [
-    new RoadToRomePlugin({
-      filter: (page) => page !== 'Home'
-    })
-  ]
+  plugins: [new RoadToRomePlugin()]
 };
 ```
 
@@ -47,13 +43,27 @@ module.exports = {
 - type: `string`
 - default: `src/pages`
 
-Find your routes by matching `${pagePath}/*/route.config.js`.
+Find your routes by matching `${pagePath}/**/route.config.js`.
 
-### filter
+### depth
 
-- type: `function: string => boolean`
+- type: `integer`
+- default: `10`
 
-Page component filter for generations.
+`options.deep` of `globby`. `options.depth` of `chokidar`.
+
+### mode
+
+- enum: [`flat-array`, `deep-map`]
+- default: `flat-array`
+
+Internal mapper of route config.
+
+### mapper
+
+- type: `function({name,index}[]) => string`
+
+custom mapper of route config, will override `options.mode`
 
 [npm-url]: https://www.npmjs.com/package/@road-to-rome/webpack-plugin
 [npm-badge]: https://img.shields.io/npm/v/@road-to-rome/webpack-plugin.svg?style=flat-square&logo=npm

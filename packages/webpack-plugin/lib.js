@@ -5,19 +5,35 @@ const { watch } = require('chokidar');
 const debounce = require('lodash/debounce');
 const globby = require('globby');
 const slash = require('slash');
+const { utimes } = require('fs');
+
+const routes = require.resolve('@road-to-rome/routes');
+
+function touch() {
+  const time = new Date();
+
+  utimes(routes, time, time, (error) => {
+    if (error) {
+      console.error(error);
+    }
+  });
+}
 
 function createWatcher({ cwd, depth, callback }) {
-  const action = debounce(callback, 1000, { trailing: true });
+  const action = debounce(callback, 1500, { trailing: true });
+  const touching = debounce(touch, 3000, { trailing: true });
 
   return watch(`**/route.config.js`, {
-    awaitWriteFinish: true,
     cwd,
     depth,
     ignoreInitial: true,
+    atomic: false,
   })
     .on('add', action)
-    .on('unlink', action)
-    .on('change', action);
+    .on('unlink', () => {
+      action();
+      touching();
+    });
 }
 
 const from = resolve(require.resolve('@road-to-rome/routes'), '../');
@@ -49,9 +65,7 @@ function createRoutes({ cwd, depth: deep, mapper }) {
         return [name, index, `import ${name} from '${path}';`];
       });
 
-      return `// timestamp: ${new Date().getTime()}
-
-${data.map((item) => item[2]).join('\r\n')}
+      return `${data.map((item) => item[2]).join('\r\n')}
 
 export const routes = ${mapper(data)};
 
