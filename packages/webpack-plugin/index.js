@@ -57,8 +57,8 @@ class RoadToRomePlugin {
   }
 
   inject(cwd) {
-    const { mapper, filter, depth } = this;
-    return createRoutes({ cwd, depth, mapper, filter })
+    const { mapper, filter, depth: deep } = this;
+    return createRoutes({ cwd, deep, mapper, filter })
       .then((content) => {
         this.writeModule(content);
       })
@@ -71,7 +71,7 @@ class RoadToRomePlugin {
     if (!this.watcher) {
       this.watcher = createWatcher({
         cwd,
-        deep: this.depth,
+        depth: this.depth,
         callback: () => {
           this.inject(cwd);
         },
