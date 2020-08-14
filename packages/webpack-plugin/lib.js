@@ -9,19 +9,21 @@ const { utimes } = require('fs');
 
 const routes = require.resolve('@road-to-rome/routes');
 
-function touch() {
-  const time = new Date();
-
-  utimes(routes, time, time, (error) => {
-    if (error) {
-      console.error(error);
-    }
-  });
-}
+const touching = debounce(
+  () => {
+    const time = new Date();
+    utimes(routes, time, time, (error) => {
+      if (error) {
+        console.error(error);
+      }
+    });
+  },
+  3000,
+  { trailing: true },
+);
 
 function createWatcher({ cwd, depth, callback }) {
   const action = debounce(callback, 1500, { trailing: true });
-  const touching = debounce(touch, 3000, { trailing: true });
 
   return watch(`**/route.config.js`, {
     cwd,
@@ -29,14 +31,16 @@ function createWatcher({ cwd, depth, callback }) {
     ignoreInitial: true,
     atomic: false,
   })
-    .on('add', action)
+    .on('add', () => {
+      action();
+    })
     .on('unlink', () => {
       action();
       touching();
     });
 }
 
-const from = resolve(require.resolve('@road-to-rome/routes'), '../');
+const from = resolve(routes, '../');
 
 const mappers = {
   'flat-array': (data) => {
@@ -64,16 +68,18 @@ function createRoutes({ cwd, deep, mapper, filter }) {
 
       const to = resolve(cwd, filePath);
       const path = slash(relative(from, to));
-      const name = pascalCase(index.join('-'));
+      const route = pascalCase(index.join('-'));
 
-      return [name, index, `import ${name} from '${path}';`];
+      return [`import ${route} from '${path}';`, { route, index }];
     });
 
-    const result = filter ? filter(data) : data;
+    const result = Object.fromEntries(
+      filter ? data.filter((item) => filter(item[1])) : data,
+    );
 
-    return `${result.map((item) => item[2]).join('\r\n')}
+    return `${Object.keys(result).join('\r\n')}
 
-export const routes = ${mapper(result)};
+export const routes = ${mapper(Object.values(result))};
 
 if (process.env.NODE_ENV !== 'production') {
   console.log('Routes generate by \`road-to-rome\`', routes);

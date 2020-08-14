@@ -36,7 +36,7 @@ class RoadToRomePlugin {
     const {
       depth = 10,
       filter,
-      mode = Object.keys(mappers)[0],
+      mode = schema.properties.mode.enum[0],
       mapper = mappers[mode] || Object.values(mappers)[0],
       pagePath = 'src/pages',
     } = options;
@@ -59,8 +59,30 @@ class RoadToRomePlugin {
   inject(cwd) {
     const { mapper, filter, depth } = this;
     return createRoutes({ cwd, depth, mapper, filter })
-      .then(this.writeModule)
+      .then((content) => {
+        this.writeModule(content);
+      })
       .catch(console.error);
+  }
+
+  startWatch(cwd) {
+    this.stopWatch();
+
+    if (!this.watcher) {
+      this.watcher = createWatcher({
+        cwd,
+        deep: this.depth,
+        callback: () => {
+          this.inject(cwd);
+        },
+      });
+    }
+  }
+
+  stopWatch() {
+    if (this.watcher) {
+      this.watcher.close();
+    }
   }
 
   apply(compiler) {
@@ -74,21 +96,11 @@ class RoadToRomePlugin {
 
     if (compiler.options.watch) {
       compiler.hooks.watchRun.tap(name, () => {
-        if (!this.watcher) {
-          this.watcher = createWatcher({
-            cwd,
-            deep: this.depth,
-            callback: () => {
-              this.inject(cwd);
-            },
-          });
-        }
+        this.startWatch(cwd);
       });
 
       compiler.hooks.watchClose.tap(name, () => {
-        if (this.watcher) {
-          this.watcher.close();
-        }
+        this.stopWatch();
       });
     }
   }

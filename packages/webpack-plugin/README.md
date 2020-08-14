@@ -61,13 +61,13 @@ Internal mapper of route config.
 
 ### mapper
 
-- type: `function: ({ name, index }[]) => string`
+- type: `function: ({ route, index }[]) => string`
 
 custom mapper of route config, will override `options.mode`
 
 ### filter
 
-- type: `function: ({ name, index }) => boolean`
+- type: `function: ({ route, index }) => boolean`
 
 Page component filter for generations.
 
