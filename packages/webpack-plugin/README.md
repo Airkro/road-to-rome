@@ -61,9 +61,15 @@ Internal mapper of route config.
 
 ### mapper
 
-- type: `function({name,index}[]) => string`
+- type: `function: ({ name, index }[]) => string`
 
 custom mapper of route config, will override `options.mode`
+
+### filter
+
+- type: `function: ({ name, index }) => boolean`
+
+Page component filter for generations.
 
 [npm-url]: https://www.npmjs.com/package/@road-to-rome/webpack-plugin
 [npm-badge]: https://img.shields.io/npm/v/@road-to-rome/webpack-plugin.svg?style=flat-square&logo=npm

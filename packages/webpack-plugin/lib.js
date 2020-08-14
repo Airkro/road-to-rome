@@ -38,7 +38,7 @@ function createWatcher({ cwd, depth, callback }) {
 
 const from = resolve(require.resolve('@road-to-rome/routes'), '../');
 
-const maker = {
+const mappers = {
   'flat-array': (data) => {
     return `[${data.map(([config]) => config).join(',')}]`;
   },
@@ -49,31 +49,36 @@ const maker = {
   },
 };
 
-function createRoutes({ cwd, depth: deep, mapper }) {
-  return globby(`**/route.config.js`, { cwd, deep, onlyFiles: true }).then(
-    (paths) => {
-      const data = paths.map((filePath) => {
-        const index = filePath
-          .split('/')
-          .slice(0, -1)
-          .map((item) => item.replace(/^(\d+)?@/, ''));
+function createRoutes({ cwd, deep, mapper, filter }) {
+  return globby(`**/route.config.js`, {
+    cwd,
+    deep,
+    onlyFiles: true,
+    gitignore: true,
+  }).then((paths) => {
+    const data = paths.map((filePath) => {
+      const index = filePath
+        .split('/')
+        .slice(0, -1)
+        .map((item) => item.replace(/^(\d+)?@/, ''));
 
-        const to = resolve(cwd, filePath);
-        const path = slash(relative(from, to));
-        const name = pascalCase(index.join('-'));
+      const to = resolve(cwd, filePath);
+      const path = slash(relative(from, to));
+      const name = pascalCase(index.join('-'));
 
-        return [name, index, `import ${name} from '${path}';`];
-      });
+      return [name, index, `import ${name} from '${path}';`];
+    });
 
-      return `${data.map((item) => item[2]).join('\r\n')}
+    const result = filter ? filter(data) : data;
 
-export const routes = ${mapper(data)};
+    return `${result.map((item) => item[2]).join('\r\n')}
+
+export const routes = ${mapper(result)};
 
 if (process.env.NODE_ENV !== 'production') {
   console.log('Routes generate by \`road-to-rome\`', routes);
 }`;
-    },
-  );
+  });
 }
 
-module.exports = { createWatcher, createRoutes, maker };
+module.exports = { createWatcher, createRoutes, mappers };

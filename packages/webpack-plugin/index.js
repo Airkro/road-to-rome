@@ -2,7 +2,7 @@ const VirtualModulesPlugin = require('webpack-virtual-modules');
 const validateOptions = require('schema-utils');
 const { resolve } = require('path');
 
-const { createWatcher, createRoutes, maker } = require('./lib');
+const { createWatcher, createRoutes, mappers } = require('./lib');
 
 const schema = {
   type: 'object',
@@ -11,70 +11,75 @@ const schema = {
     pagePath: {
       type: 'string',
     },
-    mapper: {
-      instanceof: 'Function',
+    depth: {
+      type: 'number',
     },
     mode: {
       type: 'string',
-      enum: Object.keys(maker),
+      enum: Object.keys(mappers),
     },
-    depth: {
-      type: 'number',
+    mapper: {
+      instanceof: 'Function',
+    },
+    filter: {
+      instanceof: 'Function',
     },
   },
 };
 
 const name = 'RoadToRomePlugin';
 
-module.exports = class RoadToRomePlugin {
+class RoadToRomePlugin {
   constructor(options = {}) {
     validateOptions(schema, options, { name });
 
     const {
-      pagePath = 'src/pages',
       depth = 10,
-      mode,
-      mapper = maker[mode] || Object.values(maker)[0],
+      filter,
+      mode = Object.keys(mappers)[0],
+      mapper = mappers[mode] || Object.values(mappers)[0],
+      pagePath = 'src/pages',
     } = options;
 
     this.pagePath = pagePath;
     this.depth = depth;
     this.mapper = mapper;
+    this.filter = filter;
 
     this.plugin = new VirtualModulesPlugin();
   }
 
-  inject({ cwd, depth }) {
-    const { mapper } = this;
-    return createRoutes({ cwd, depth, mapper })
-      .then((content) => {
-        this.plugin.writeModule(
-          `node_modules/@road-to-rome/routes/index.js`,
-          content,
-        );
-      })
+  writeModule(content) {
+    this.plugin.writeModule(
+      `node_modules/@road-to-rome/routes/index.js`,
+      content,
+    );
+  }
+
+  inject(cwd) {
+    const { mapper, filter, depth } = this;
+    return createRoutes({ cwd, depth, mapper, filter })
+      .then(this.writeModule)
       .catch(console.error);
   }
 
   apply(compiler) {
     this.plugin.apply(compiler);
 
-    const options = {
-      cwd: resolve(compiler.context, this.pagePath),
-      depth: this.depth,
-    };
+    const cwd = resolve(compiler.context, this.pagePath);
 
     compiler.hooks.entryOption.tap(name, () => {
-      this.inject(options);
+      this.inject(cwd);
     });
 
     if (compiler.options.watch) {
       compiler.hooks.watchRun.tap(name, () => {
         if (!this.watcher) {
           this.watcher = createWatcher({
-            ...options,
+            cwd,
+            deep: this.depth,
             callback: () => {
-              this.inject(options);
+              this.inject(cwd);
             },
           });
         }
@@ -87,4 +92,8 @@ module.exports = class RoadToRomePlugin {
       });
     }
   }
-};
+}
+
+RoadToRomePlugin.mappers = mappers;
+
+module.exports = RoadToRomePlugin;
