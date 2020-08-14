@@ -1,6 +1,6 @@
 {
   "name": "@road-to-rome/webpack-plugin",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Automatically generate routes by filename",
   "license": "MIT",
   "author": {

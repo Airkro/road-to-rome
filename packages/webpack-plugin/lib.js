@@ -44,11 +44,11 @@ const from = resolve(routes, '../');
 
 const mappers = {
   'flat-array': (data) => {
-    return `[${data.map(([config]) => config).join(',')}]`;
+    return `[${data.map(({ route }) => route).join(',')}]`;
   },
   'deep-map': (data) => {
     return `new Map([${data
-      .map(([config, index]) => `[${JSON.stringify(index)}, ${config}]`)
+      .map(({ route, index }) => `[${JSON.stringify(index)}, ${route}]`)
       .join(',')}])`;
   },
 };
