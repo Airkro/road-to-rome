@@ -44,7 +44,10 @@ const from = resolve(routes, '../');
 
 const mappers = {
   'flat-array': (data) => {
-    return `[${data.map(({ route }) => route).join(',')}]`;
+    const list = data.map(
+      ({ route, index }) => `{path:"/${index.join('/')}",...${route}}`,
+    );
+    return `[${list.join(',')}]`;
   },
   'deep-map': (data) => {
     return `new Map([${data
