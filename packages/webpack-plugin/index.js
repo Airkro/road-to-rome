@@ -105,7 +105,7 @@ class RoadToRomePlugin {
         }
       });
 
-      compiler.hooks.watchRun.tap(name, () => {
+      compiler.hooks.entryOption.tap(name, () => {
         this.startWatch(cwd);
       });
 

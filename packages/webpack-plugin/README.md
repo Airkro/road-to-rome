@@ -38,6 +38,7 @@ new Router({ routes });
 const RoadToRomePlugin = require('@road-to-rome/webpack-plugin');
 
 module.exports = {
+  watch: true, // Needed
   plugins: [new RoadToRomePlugin()]
 };
 ```
