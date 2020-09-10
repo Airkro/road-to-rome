@@ -3,8 +3,14 @@
 Automatically generate routes by filename.
 
 [![npm][npm-badge]][npm-url]
-[![license][license-badge]][github-url]
+[![github][github-badge]][github-url]
 ![node][node-badge]
+
+[npm-url]: https://www.npmjs.com/package/@road-to-rome/webpack-plugin
+[npm-badge]: https://img.shields.io/npm/v/@road-to-rome/webpack-plugin.svg?style=flat-square&logo=npm
+[github-url]: https://github.com/road-to-rome/road-to-rome/tree/master/packages/webpack-plugin
+[github-badge]: https://img.shields.io/npm/l/@road-to-rome/webpack-plugin.svg?style=flat-square&colorB=blue&logo=github
+[node-badge]: https://img.shields.io/node/v/@road-to-rome/webpack-plugin.svg?style=flat-square&colorB=green&logo=node.js
 
 ## Installation
 
@@ -70,9 +76,3 @@ custom mapper of route config, will override `options.mode`
 - type: `function: ({ route, index }) => boolean`
 
 Page component filter for generations.
-
-[npm-url]: https://www.npmjs.com/package/@road-to-rome/webpack-plugin
-[npm-badge]: https://img.shields.io/npm/v/@road-to-rome/webpack-plugin.svg?style=flat-square&logo=npm
-[github-url]: https://github.com/road-to-rome/road-to-rome/tree/master/packages/webpack-plugin
-[node-badge]: https://img.shields.io/node/v/@road-to-rome/webpack-plugin.svg?style=flat-square&colorB=green&logo=node.js
-[license-badge]: https://img.shields.io/npm/l/@road-to-rome/webpack-plugin.svg?style=flat-square&colorB=blue&logo=github

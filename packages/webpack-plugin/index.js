@@ -1,6 +1,7 @@
 const VirtualModulesPlugin = require('webpack-virtual-modules');
 const validateOptions = require('schema-utils');
 const { resolve } = require('path');
+const readline = require('readline');
 
 const { createWatcher, createRoutes, mappers } = require('./lib');
 
@@ -95,12 +96,22 @@ class RoadToRomePlugin {
     });
 
     if (compiler.options.watch) {
+      /* eslint-env node */
+      const rl = readline.createInterface(process.stdin);
+
+      rl.on('line', (line) => {
+        if (line.trim() === 'rtr') {
+          this.inject(cwd);
+        }
+      });
+
       compiler.hooks.watchRun.tap(name, () => {
         this.startWatch(cwd);
       });
 
       compiler.hooks.watchClose.tap(name, () => {
         this.stopWatch();
+        rl.close();
       });
     }
   }
