@@ -61,7 +61,9 @@ class RoadToRomePlugin {
     const { mapper, filter, depth: deep } = this;
     return createRoutes({ cwd, deep, mapper, filter })
       .then((content) => {
-        this.writeModule(content);
+        if (content) {
+          this.writeModule(content);
+        }
       })
       .catch(console.error);
   }

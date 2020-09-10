@@ -58,14 +58,16 @@ const mappers = {
 };
 
 function createRoutes({ cwd, deep, mapper, filter }) {
-  console.log('Road-To-Rome:', 'regenerating...');
-
   return globby(`**/route.config.js`, {
     cwd,
     deep,
     onlyFiles: true,
     gitignore: true,
   }).then((paths) => {
+    if (paths.length === 0) {
+      return '';
+    }
+    console.log('Road-To-Rome:', 'regenerate', paths.length, 'routes.');
     const data = paths.map((filePath) => {
       const index = filePath
         .split('/')
