@@ -1,6 +1,6 @@
 {
   "name": "@road-to-rome/webpack-plugin",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Automatically generate routes by filename",
   "license": "MIT",
   "author": {
@@ -25,9 +25,9 @@
     "globby": "^11.0.1",
     "lodash": "^4.17.20",
     "pascal-case": "^3.1.1",
-    "schema-utils": "^2.7.0",
+    "schema-utils": "^2.7.1",
     "slash": "^3.0.0",
-    "webpack-virtual-modules": "^0.2.2"
+    "webpack-virtual-modules": "^0.3.0"
   },
   "engines": {
     "node": "^10.18 || >=12"

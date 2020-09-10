@@ -25,6 +25,8 @@ const touching = debounce(
 function createWatcher({ cwd, depth, callback }) {
   const action = debounce(callback, 1500, { trailing: true });
 
+  let auto;
+
   return watch(`**/route.config.js`, {
     cwd,
     depth,
@@ -33,10 +35,18 @@ function createWatcher({ cwd, depth, callback }) {
   })
     .on('add', () => {
       action();
+      touching();
     })
     .on('unlink', () => {
       action();
       touching();
+      auto = setTimeout(() => {
+        action();
+        touching();
+      }, 5000);
+    })
+    .on('close', () => {
+      clearTimeout(auto);
     });
 }
 
