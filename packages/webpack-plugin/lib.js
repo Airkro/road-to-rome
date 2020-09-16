@@ -1,20 +1,19 @@
-/* eslint-env node */
 const { pascalCase } = require('pascal-case');
 const { resolve, relative } = require('path');
+const { utimes } = require('fs');
 const { watch } = require('chokidar');
 const debounce = require('lodash/debounce');
 const globby = require('globby');
 const slash = require('slash');
-const { utimes } = require('fs');
 
 const routes = require.resolve('@road-to-rome/routes');
 
 const touching = debounce(
-  () => {
+  (logger) => {
     const time = new Date();
     utimes(routes, time, time, (error) => {
       if (error) {
-        console.error(error);
+        logger.warn(error);
       }
     });
   },
@@ -22,7 +21,7 @@ const touching = debounce(
   { trailing: true },
 );
 
-function createWatcher({ cwd, depth, callback }) {
+function createWatcher({ cwd, depth, logger, callback }) {
   const action = debounce(callback, 1500, { trailing: true });
 
   return watch(`**/route.config.js`, {
@@ -33,11 +32,11 @@ function createWatcher({ cwd, depth, callback }) {
   })
     .on('add', () => {
       action();
-      touching();
+      touching(logger);
     })
     .on('unlink', () => {
       action();
-      touching();
+      touching(logger);
     });
 }
 
@@ -65,9 +64,8 @@ function createRoutes({ cwd, deep, mapper, filter }) {
     gitignore: true,
   }).then((paths) => {
     if (paths.length === 0) {
-      return '';
+      return { length: 0 };
     }
-    console.log('Road-To-Rome:', 'regenerate', paths.length, 'routes.');
     const data = paths.map((filePath) => {
       const index = filePath
         .split('/')
@@ -85,13 +83,16 @@ function createRoutes({ cwd, deep, mapper, filter }) {
       filter ? data.filter((item) => filter(item[1])) : data,
     );
 
-    return `${Object.keys(result).join('\r\n')}
+    return {
+      length: paths.length,
+      context: `${Object.keys(result).join('\r\n')}
 
 export const routes = ${mapper(Object.values(result))};
 
 if (process.env.NODE_ENV !== 'production') {
   console.log('Routes generate by \`road-to-rome\`', routes);
-}`;
+}`,
+    };
   });
 }
 

@@ -8,7 +8,7 @@ Automatically generate routes by filename.
 
 [npm-url]: https://www.npmjs.com/package/@road-to-rome/webpack-plugin
 [npm-badge]: https://img.shields.io/npm/v/@road-to-rome/webpack-plugin.svg?style=flat-square&logo=npm
-[github-url]: https://github.com/road-to-rome/road-to-rome/tree/master/packages/webpack-plugin
+[github-url]: https://github.com/airkro/road-to-rome/tree/master/packages/webpack-plugin
 [github-badge]: https://img.shields.io/npm/l/@road-to-rome/webpack-plugin.svg?style=flat-square&colorB=blue&logo=github
 [node-badge]: https://img.shields.io/node/v/@road-to-rome/webpack-plugin.svg?style=flat-square&colorB=green&logo=node.js
 
@@ -38,7 +38,7 @@ new Router({ routes });
 const RoadToRomePlugin = require('@road-to-rome/webpack-plugin');
 
 module.exports = {
-  watch: true, // Needed
+  watch: true, // Needed in watch mode
   plugins: [new RoadToRomePlugin()]
 };
 ```

@@ -4,33 +4,20 @@ const { resolve } = require('path');
 const readline = require('readline');
 
 const { createWatcher, createRoutes, mappers } = require('./lib');
-
-const schema = {
-  type: 'object',
-  additionalProperties: false,
-  properties: {
-    pagePath: {
-      type: 'string',
-    },
-    depth: {
-      type: 'number',
-    },
-    mode: {
-      type: 'string',
-      enum: Object.keys(mappers),
-    },
-    mapper: {
-      instanceof: 'Function',
-    },
-    filter: {
-      instanceof: 'Function',
-    },
-  },
-};
+const schema = require('./schema');
 
 const name = 'RoadToRomePlugin';
 
-class RoadToRomePlugin {
+function getLogger() {
+  try {
+    // eslint-disable-next-line global-require,import/no-unresolved
+    return require('webpack-log')({ name: 'rtr' });
+  } catch {
+    return false;
+  }
+}
+
+module.exports = class RoadToRomePlugin {
   constructor(options = {}) {
     validateOptions(schema, options, { name });
 
@@ -57,27 +44,28 @@ class RoadToRomePlugin {
     );
   }
 
-  inject(cwd) {
+  inject(cwd, logger) {
     const { mapper, filter, depth: deep } = this;
     return createRoutes({ cwd, deep, mapper, filter })
-      .then((content) => {
-        if (content) {
-          this.writeModule(content);
+      .then(({ context, length }) => {
+        logger.info('generate', length, 'routes automatically');
+        if (context) {
+          this.writeModule(context);
         }
       })
-      .catch(console.error);
+      .catch((error) => {
+        logger.error(error.message);
+      });
   }
 
-  startWatch(cwd) {
+  startWatch(cwd, callback) {
     this.stopWatch();
 
     if (!this.watcher) {
       this.watcher = createWatcher({
         cwd,
         depth: this.depth,
-        callback: () => {
-          this.inject(cwd);
-        },
+        callback,
       });
     }
   }
@@ -91,24 +79,30 @@ class RoadToRomePlugin {
   apply(compiler) {
     this.plugin.apply(compiler);
 
+    const logger = getLogger() || compiler.getInfrastructureLogger(name);
+
     const cwd = resolve(compiler.context, this.pagePath);
 
-    compiler.hooks.entryOption.tap(name, () => {
-      this.inject(cwd);
+    compiler.hooks.afterEnvironment.tap(name, () => {
+      this.inject(cwd, logger);
     });
 
     if (compiler.options.watch) {
       /* eslint-env node */
       const rl = readline.createInterface(process.stdin);
+      /* eslint-env */
+      compiler.hooks.afterEnvironment.tap(name, () => {
+        this.startWatch(cwd, () => {
+          logger.info('Routes changing...');
+          this.inject(cwd, logger);
+        });
 
-      rl.on('line', (line) => {
-        if (line.trim() === 'rtr') {
-          this.inject(cwd);
-        }
-      });
-
-      compiler.hooks.entryOption.tap(name, () => {
-        this.startWatch(cwd);
+        rl.on('line', (line) => {
+          if (line.trim() === 'rtr') {
+            console.log('-------------------------');
+            this.inject(cwd, logger);
+          }
+        });
       });
 
       compiler.hooks.watchClose.tap(name, () => {
@@ -117,8 +111,4 @@ class RoadToRomePlugin {
       });
     }
   }
-}
-
-RoadToRomePlugin.mappers = mappers;
-
-module.exports = RoadToRomePlugin;
+};
