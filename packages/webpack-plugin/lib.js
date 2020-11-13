@@ -79,12 +79,12 @@ function createRoutes({ cwd, deep, mapper, filter }) {
       return [`import ${route} from '${path}';`, { route, index }];
     });
 
-    const result = Object.fromEntries(
-      filter ? data.filter((item) => filter(item[1])) : data,
-    );
+    const lists = filter ? data.filter((item) => filter(item[1])) : data;
+
+    const result = Object.fromEntries(routes);
 
     return {
-      length: paths.length,
+      length: lists.length,
       context: `${Object.keys(result).join('\r\n')}
 
 export const routes = ${mapper(Object.values(result))};

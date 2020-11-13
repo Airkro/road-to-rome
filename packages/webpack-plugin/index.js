@@ -1,5 +1,5 @@
 const VirtualModulesPlugin = require('webpack-virtual-modules');
-const validateOptions = require('schema-utils');
+const { validate } = require('schema-utils');
 const { resolve } = require('path');
 const readline = require('readline');
 
@@ -8,18 +8,20 @@ const schema = require('./schema');
 
 const name = 'RoadToRomePlugin';
 
+// eslint-disable-next-line consistent-return
 function getLogger() {
-  try {
-    // eslint-disable-next-line global-require,import/no-unresolved
-    return require('webpack-log')({ name: 'rtr' });
-  } catch {
-    return false;
+  if (process.env.WEBPACK_DEV_SERVER) {
+    try {
+      // eslint-disable-next-line global-require,import/no-unresolved
+      return require('webpack-log')({ name: 'rtr' });
+      // eslint-disable-next-line no-empty
+    } catch {}
   }
 }
 
 module.exports = class RoadToRomePlugin {
   constructor(options = {}) {
-    validateOptions(schema, options, { name });
+    validate(schema, options, { name });
 
     const {
       depth = 10,
