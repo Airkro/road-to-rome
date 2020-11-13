@@ -10,13 +10,11 @@ const name = 'RoadToRomePlugin';
 
 // eslint-disable-next-line consistent-return
 function getLogger() {
-  if (process.env.WEBPACK_DEV_SERVER) {
-    try {
-      // eslint-disable-next-line global-require,import/no-unresolved
-      return require('webpack-log')({ name: 'rtr' });
-      // eslint-disable-next-line no-empty
-    } catch {}
-  }
+  try {
+    // eslint-disable-next-line global-require,import/no-unresolved
+    return require('webpack-log')({ name: 'rtr' });
+    // eslint-disable-next-line no-empty
+  } catch {}
 }
 
 module.exports = class RoadToRomePlugin {

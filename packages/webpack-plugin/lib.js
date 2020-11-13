@@ -81,7 +81,7 @@ function createRoutes({ cwd, deep, mapper, filter }) {
 
     const lists = filter ? data.filter((item) => filter(item[1])) : data;
 
-    const result = Object.fromEntries(routes);
+    const result = Object.fromEntries(lists);
 
     return {
       length: lists.length,
