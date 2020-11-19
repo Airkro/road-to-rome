@@ -1,6 +1,6 @@
 {
   "name": "@road-to-rome/webpack-plugin",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "description": "Automatically generate routes by filename",
   "license": "MIT",
   "author": {
@@ -28,5 +28,8 @@
   },
   "engines": {
     "node": "^10.18 || ^12 || ^14"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
   }
 }

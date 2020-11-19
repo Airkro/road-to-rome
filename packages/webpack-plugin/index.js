@@ -17,6 +17,8 @@ function getLogger() {
   } catch {}
 }
 
+const routePath = 'node_modules/@road-to-rome/routes/index.js';
+
 module.exports = class RoadToRomePlugin {
   constructor(options = {}) {
     validate(schema, options, { name });
@@ -29,28 +31,28 @@ module.exports = class RoadToRomePlugin {
       pagePath = 'src/pages',
     } = options;
 
-    this.pagePath = pagePath;
-    this.depth = depth;
-    this.mapper = mapper;
-    this.filter = filter;
+    this.options = {
+      deep: depth,
+      mapper,
+      filter,
+      cwd: resolve(process.cwd(), pagePath),
+    };
 
-    this.plugin = new VirtualModulesPlugin();
-  }
+    const { context, length } = createRoutes(this.options, true);
 
-  writeModule(content) {
-    this.plugin.writeModule(
-      `node_modules/@road-to-rome/routes/index.js`,
-      content,
+    console.info('generate', length, 'routes automatically');
+
+    this.plugin = new VirtualModulesPlugin(
+      length ? { [routePath]: context } : undefined,
     );
   }
 
-  inject(cwd, logger) {
-    const { mapper, filter, depth: deep } = this;
-    return createRoutes({ cwd, deep, mapper, filter })
+  inject(logger) {
+    return createRoutes(this.options)
       .then(({ context, length }) => {
         logger.info('generate', length, 'routes automatically');
         if (context) {
-          this.writeModule(context);
+          this.plugin.writeModule(routePath, context);
         }
       })
       .catch((error) => {
@@ -79,28 +81,21 @@ module.exports = class RoadToRomePlugin {
   apply(compiler) {
     this.plugin.apply(compiler);
 
-    const logger = getLogger() || compiler.getInfrastructureLogger(name);
-
-    const cwd = resolve(compiler.context, this.pagePath);
-
-    compiler.hooks.afterEnvironment.tap(name, () => {
-      this.inject(cwd, logger);
-    });
-
     if (compiler.options.watch) {
-      /* eslint-env node */
+      const logger = getLogger() || compiler.getInfrastructureLogger(name);
+
       const rl = readline.createInterface(process.stdin);
-      /* eslint-env */
+
       compiler.hooks.afterEnvironment.tap(name, () => {
-        this.startWatch(cwd, () => {
+        this.startWatch(this.options.cwd, () => {
           logger.info('Routes changing...');
-          this.inject(cwd, logger);
+          this.inject(logger);
         });
 
         rl.on('line', (line) => {
           if (line.trim() === 'rtr') {
             console.log('-------------------------');
-            this.inject(cwd, logger);
+            this.inject(logger);
           }
         });
       });

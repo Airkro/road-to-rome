@@ -56,44 +56,54 @@ const mappers = {
   },
 };
 
-function createRoutes({ cwd, deep, mapper, filter }) {
-  return globby(`**/route.config.js`, {
-    cwd,
-    deep,
-    onlyFiles: true,
-    gitignore: true,
-  }).then((paths) => {
-    if (paths.length === 0) {
-      return { length: 0 };
-    }
-    const data = paths.map((filePath) => {
-      const index = filePath
-        .split('/')
-        .slice(0, -1)
-        .map((item) => item.replace(/^(\d+)?@/, ''));
+function pathParser({ paths, cwd, mapper, filter }) {
+  if (paths.length === 0) {
+    return { length: 0 };
+  }
+  const data = paths.map((filePath) => {
+    const index = filePath
+      .split('/')
+      .slice(0, -1)
+      .map((item) => item.replace(/^(\d+)?@/, ''));
 
-      const to = resolve(cwd, filePath);
-      const path = slash(relative(from, to));
-      const route = pascalCase(index.join('-'));
+    const to = resolve(cwd, filePath);
+    const path = slash(relative(from, to));
+    const route = pascalCase(index.join('-'));
 
-      return [`import ${route} from '${path}';`, { route, index }];
-    });
+    return [`import ${route} from '${path}';`, { route, index }];
+  });
 
-    const lists = filter ? data.filter((item) => filter(item[1])) : data;
+  const lists = filter ? data.filter((item) => filter(item[1])) : data;
 
-    const result = Object.fromEntries(lists);
+  const result = Object.fromEntries(lists);
 
-    return {
-      length: lists.length,
-      context: `${Object.keys(result).join('\r\n')}
+  return {
+    length: lists.length,
+    context: `${Object.keys(result).join('\r\n')}
 
 export const routes = ${mapper(Object.values(result))};
 
 if (process.env.NODE_ENV !== 'production') {
   console.log('Routes generate by \`road-to-rome\`', routes);
 }`,
-    };
-  });
+  };
+}
+
+function createRoutes({ cwd, deep, mapper, filter }, sync = false) {
+  const options = { cwd, deep, onlyFiles: true, gitignore: true };
+
+  if (sync) {
+    return pathParser({
+      paths: globby.sync(`**/route.config.js`, options),
+      cwd,
+      mapper,
+      filter,
+    });
+  }
+
+  return globby(`**/route.config.js`, options).then((paths) =>
+    pathParser({ paths, cwd, mapper, filter }),
+  );
 }
 
 module.exports = { createWatcher, createRoutes, mappers };
