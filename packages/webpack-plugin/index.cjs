@@ -1,9 +1,14 @@
 const VirtualModulesPlugin = require('webpack-virtual-modules');
 const { validate } = require('schema-utils');
-const { resolve } = require('path');
-const readline = require('readline');
+const { resolve, relative } = require('path');
 
-const { createWatcher, createRoutes, mappers } = require('./lib.cjs');
+const {
+  createCaller,
+  createRoutes,
+  createWatcher,
+  mappers,
+  placeholder,
+} = require('./lib.cjs');
 const schema = require('./schema.cjs');
 
 const name = 'RoadToRomePlugin';
@@ -16,8 +21,6 @@ function getLogger() {
     // eslint-disable-next-line no-empty
   } catch {}
 }
-
-const routePath = 'node_modules/@road-to-rome/routes/index.js';
 
 module.exports = class RoadToRomePlugin {
   constructor(options = {}) {
@@ -35,16 +38,8 @@ module.exports = class RoadToRomePlugin {
       deep: depth,
       mapper,
       filter,
-      cwd: resolve(process.cwd(), pagePath),
+      pagePath,
     };
-
-    const { context, length } = createRoutes(this.options, true);
-
-    console.info('generate', length, 'routes automatically');
-
-    this.plugin = new VirtualModulesPlugin(
-      length ? { [routePath]: context } : undefined,
-    );
   }
 
   inject(logger) {
@@ -52,7 +47,7 @@ module.exports = class RoadToRomePlugin {
       .then(({ context, length }) => {
         logger.info('generate', length, 'routes automatically');
         if (context) {
-          this.plugin.writeModule(routePath, context);
+          this.plugin.writeModule(this.routePath, context);
         }
       })
       .catch((error) => {
@@ -78,32 +73,46 @@ module.exports = class RoadToRomePlugin {
     }
   }
 
+  runOnWatching(logger, compiler) {
+    const { setup, close } = createCaller();
+
+    compiler.hooks.afterEnvironment.tap(name, () => {
+      this.startWatch(this.options.cwd, () => {
+        logger.info('Routes changing...');
+        this.inject(logger);
+      });
+
+      setup(() => {
+        console.log('-------------------------');
+        this.inject(logger);
+      });
+    });
+
+    compiler.hooks.watchClose.tap(name, () => {
+      this.stopWatch();
+      close();
+    });
+  }
+
   apply(compiler) {
-    this.plugin.apply(compiler);
+    this.routePath = relative(compiler.context, placeholder);
+    this.options.cwd = resolve(compiler.context, this.options.pagePath);
+
+    const logger = getLogger() || compiler.getInfrastructureLogger(name);
 
     if (compiler.options.watch) {
-      const logger = getLogger() || compiler.getInfrastructureLogger(name);
-
-      const rl = readline.createInterface(process.stdin);
-
-      compiler.hooks.afterEnvironment.tap(name, () => {
-        this.startWatch(this.options.cwd, () => {
-          logger.info('Routes changing...');
-          this.inject(logger);
+      this.plugin = new VirtualModulesPlugin();
+      this.plugin.apply(compiler);
+      this.runOnWatching(logger, compiler);
+    } else {
+      const { context, length } = createRoutes(this.options, true);
+      if (length) {
+        const plugin = new VirtualModulesPlugin({
+          [this.routePath]: context,
         });
-
-        rl.on('line', (line) => {
-          if (line.trim() === 'rtr') {
-            console.log('-------------------------');
-            this.inject(logger);
-          }
-        });
-      });
-
-      compiler.hooks.watchClose.tap(name, () => {
-        this.stopWatch();
-        rl.close();
-      });
+        plugin.apply(compiler);
+        logger.info('generate', length, 'routes automatically');
+      }
     }
   }
 };

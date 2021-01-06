@@ -5,13 +5,14 @@ const { watch } = require('chokidar');
 const debounce = require('lodash/debounce');
 const globby = require('globby');
 const slash = require('slash');
+const readline = require('readline');
 
-const routes = require.resolve('@road-to-rome/routes');
+const placeholder = require.resolve('@road-to-rome/routes');
 
 const touching = debounce(
   (logger) => {
     const time = new Date();
-    utimes(routes, time, time, (error) => {
+    utimes(placeholder, time, time, (error) => {
       if (error) {
         logger.warn(error);
       }
@@ -40,7 +41,7 @@ function createWatcher({ cwd, depth, logger, callback }) {
     });
 }
 
-const from = resolve(routes, '../');
+const from = resolve(placeholder, '../');
 
 const mappers = {
   'flat-array': (data) => {
@@ -105,4 +106,27 @@ function createRoutes({ cwd, deep, mapper, filter }, sync = false) {
   );
 }
 
-module.exports = { createWatcher, createRoutes, mappers };
+function createCaller(sign = 'rtr') {
+  const rl = readline.createInterface(process.stdin);
+
+  return {
+    setup(callback) {
+      rl.on('line', (line) => {
+        if (line.trim() === sign) {
+          callback();
+        }
+      });
+    },
+    close() {
+      rl.close();
+    },
+  };
+}
+
+module.exports = {
+  createCaller,
+  createRoutes,
+  createWatcher,
+  mappers,
+  placeholder,
+};
