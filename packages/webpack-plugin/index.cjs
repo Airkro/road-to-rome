@@ -3,15 +3,15 @@ const { validate } = require('schema-utils');
 const { resolve } = require('path');
 const readline = require('readline');
 
-const { createWatcher, createRoutes, mappers } = require('./lib');
-const schema = require('./schema');
+const { createWatcher, createRoutes, mappers } = require('./lib.cjs');
+const schema = require('./schema.cjs');
 
 const name = 'RoadToRomePlugin';
 
 // eslint-disable-next-line consistent-return
 function getLogger() {
   try {
-    // eslint-disable-next-line global-require,import/no-unresolved
+    // eslint-disable-next-line import/no-unresolved
     return require('webpack-log')({ name: 'rtr' });
     // eslint-disable-next-line no-empty
   } catch {}

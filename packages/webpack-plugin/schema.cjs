@@ -1,4 +1,4 @@
-const { mappers } = require('./lib');
+const { mappers } = require('./lib.cjs');
 
 module.exports = {
   type: 'object',

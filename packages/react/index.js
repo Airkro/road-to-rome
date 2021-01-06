@@ -1,6 +1,6 @@
-import { nanoid } from 'nanoid';
-import { unflatten } from 'flat';
 import { constantCase } from 'constant-case';
+import { unflatten } from 'flat';
+import { nanoid } from 'nanoid';
 
 function toTreeData(data) {
   return Object.values(data).map(

@@ -3,34 +3,32 @@
   "name": "road-to-rome",
   "version": "0.0.0",
   "license": "MIT",
+  "author": {
+    "name": "Eric Chen",
+    "email": "airkro@qq.com"
+  },
   "scripts": {
     "format": "nice-move lint"
   },
   "workspaces": [
     "packages/*"
   ],
-  "dependencies": {
-    "antd": "^4.8.4",
-    "react": "^16.14.0",
-    "react-dom": "^16.14.0",
-    "react-router-dom": "^5.2.0"
-  },
   "devDependencies": {
-    "@commitlint/cli": "^11.0.0",
-    "@commitlint/config-conventional": "^11.0.0",
-    "@nice-move/cli": "^0.5.6",
-    "@nice-move/eslint-config-react": "^0.3.12",
+    "@nice-move/cli": "^0.5.13",
+    "@nice-move/commitlint-config": "^0.0.0",
+    "@nice-move/eslint-config-base": "^0.5.14",
     "@nice-move/prettier-config": "^0.3.5",
-    "@types/react": "^16.9.55",
-    "eslint": "^6.8.0",
-    "husky": "^4.3.0",
-    "prettier": "^2.1.2"
+    "commitlint": "^11.0.0",
+    "eslint": "^7.17.0",
+    "garou": "^0.1.7",
+    "husky": "^4.3.6",
+    "prettier": "^2.2.1"
   },
   "engines": {
     "node": "^12.14 || ^14"
   },
   "commitlint": {
-    "extends": "@commitlint/config-conventional"
+    "extends": "@nice-move/commitlint-config"
   },
   "eslintConfig": {
     "extends": "@nice-move/eslint-config-base"

@@ -49,11 +49,10 @@ const mappers = {
     );
     return `[${list.join(',')}]`;
   },
-  'deep-map': (data) => {
-    return `new Map([${data
+  'deep-map': (data) =>
+    `new Map([${data
       .map(({ route, index }) => `[${JSON.stringify(index)}, ${route}]`)
-      .join(',')}])`;
-  },
+      .join(',')}])`,
 };
 
 function pathParser({ paths, cwd, mapper, filter }) {

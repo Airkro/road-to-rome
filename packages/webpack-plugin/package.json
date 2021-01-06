@@ -1,6 +1,6 @@
 {
   "name": "@road-to-rome/webpack-plugin",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Automatically generate routes by filename",
   "license": "MIT",
   "author": {
@@ -16,18 +16,18 @@
   "bugs": {
     "url": "https://github.com/airkro/road-to-rome/issues"
   },
-  "main": "index.js",
+  "main": "index.cjs",
   "dependencies": {
     "chokidar": "^3.4.3",
     "globby": "^11.0.1",
     "lodash": "^4.17.20",
-    "pascal-case": "^3.1.1",
+    "pascal-case": "^3.1.2",
     "schema-utils": "^3.0.0",
     "slash": "^3.0.0",
-    "webpack-virtual-modules": "^0.3.2"
+    "webpack-virtual-modules": "^0.4.1"
   },
   "engines": {
-    "node": "^10.18 || ^12 || ^14"
+    "node": "^12 || ^14"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
