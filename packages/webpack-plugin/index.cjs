@@ -1,6 +1,6 @@
 const VirtualModulesPlugin = require('webpack-virtual-modules');
 const { validate } = require('schema-utils');
-const { resolve, relative } = require('path');
+const { resolve } = require('path');
 
 const {
   createCaller,
@@ -46,9 +46,7 @@ module.exports = class RoadToRomePlugin {
     return createRoutes(this.options)
       .then(({ context, length }) => {
         logger.info('generate', length, 'routes automatically');
-        if (context) {
-          this.plugin.writeModule(this.routePath, context);
-        }
+        this.plugin.writeModule(placeholder, context);
       })
       .catch((error) => {
         logger.error(error.message);
@@ -95,7 +93,6 @@ module.exports = class RoadToRomePlugin {
   }
 
   apply(compiler) {
-    this.routePath = relative(compiler.context, placeholder);
     this.options.cwd = resolve(compiler.context, this.options.pagePath);
 
     const logger = getLogger() || compiler.getInfrastructureLogger(name);
@@ -108,7 +105,7 @@ module.exports = class RoadToRomePlugin {
       const { context, length } = createRoutes(this.options, true);
       if (length) {
         const plugin = new VirtualModulesPlugin({
-          [this.routePath]: context,
+          [placeholder]: context,
         });
         plugin.apply(compiler);
         logger.info('generate', length, 'routes automatically');
