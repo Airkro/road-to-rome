@@ -1,0 +1,54 @@
+{
+  "private": true,
+  "name": "road-to-rome",
+  "version": "0.0.0",
+  "license": "MIT",
+  "author": {
+    "name": "Eric Chen",
+    "email": "airkro@qq.com"
+  },
+  "scripts": {
+    "lint:staged": "nice-move lint staged",
+    "prepare": "git config core.hooksPath .githooks",
+    "start": "nodemon",
+    "test": "ava --fail-fast"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "@nice-move/cli": "^0.7.0",
+    "@nice-move/eslint-config-base": "^0.6.2",
+    "@nice-move/prettier-config": "^0.5.2",
+    "ava": "^4.0.1",
+    "eslint": "^8.10.0",
+    "eslint-plugin-ava": "^13.2.0",
+    "garou": "^0.4.0",
+    "html-webpack-plugin": "^5.5.0",
+    "nodemon": "^2.0.15",
+    "prettier": "^2.5.1",
+    "webpack": "^5.69.1",
+    "webpack-cli": "^4.9.2",
+    "webpack-dev-server": "^4.7.4"
+  },
+  "engines": {
+    "node": "^16.13.0"
+  },
+  "eslintConfig": {
+    "extends": "@nice-move/eslint-config-base"
+  },
+  "nice-move": {
+    "internal-regex": "^@road-to-rome/"
+  },
+  "nodemonConfig": {
+    "delay": 5,
+    "exec": "webpack serve",
+    "ext": "js,cjs,json",
+    "watch": [
+      "./packages/**/*",
+      "./tools/**/*",
+      "webpack.config.cjs"
+    ]
+  },
+  "prettier": "@nice-move/prettier-config"
+}
