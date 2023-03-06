@@ -1,10 +1,5 @@
-'use strict';
-
-// eslint-disable-next-line import/no-unresolved
-const test = require('ava').default;
-const {
-  mergeFilter,
-} = require('@road-to-rome/webpack-plugin/lib/merge-filter.cjs');
+import { mergeFilter } from '@road-to-rome/webpack-plugin/lib/merge-filter.cjs';
+import test from 'ava';
 
 const sample = [{ path: '1' }, { path: '2' }, { path: '3' }, { path: '4' }];
 
