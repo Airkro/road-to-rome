@@ -1,6 +1,6 @@
 'use strict';
 
-const { resolve, relative } = require('path');
+const { resolve, relative } = require('node:path');
 const slash = require('slash');
 const { generate } = require('./generator.cjs');
 

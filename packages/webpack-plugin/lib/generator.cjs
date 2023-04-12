@@ -20,18 +20,16 @@ function variable(items) {
 }
 
 function statement(items) {
-  return [
-    ...items.map(({ from, source, to }) =>
-      t.importDeclaration(
-        [
-          from
-            ? t.importSpecifier(t.identifier(to), t.identifier(from))
-            : t.importDefaultSpecifier(t.identifier(to)),
-        ],
-        t.stringLiteral(source),
-      ),
+  return items.map(({ from, source, to }) =>
+    t.importDeclaration(
+      [
+        from
+          ? t.importSpecifier(t.identifier(to), t.identifier(from))
+          : t.importDefaultSpecifier(t.identifier(to)),
+      ],
+      t.stringLiteral(source),
     ),
-  ];
+  );
 }
 
 function logger(items) {

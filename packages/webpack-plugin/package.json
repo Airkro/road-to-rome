@@ -12,7 +12,9 @@
     "road-to-rome",
     "route",
     "router",
-    "routes"
+    "routes",
+    "webpack",
+    "webpack-plugin"
   ],
   "homepage": "https://github.com/airkro/road-to-rome/tree/master/packages/webpack-plugin",
   "repository": {
