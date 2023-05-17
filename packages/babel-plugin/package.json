@@ -1,6 +1,6 @@
 {
   "name": "@road-to-rome/babel-plugin",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Automatically generate routes by filename",
   "license": "MIT",
   "author": {
@@ -32,10 +32,10 @@
     "slash": "^3.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.21.4"
+    "@babel/core": "^7.21.8"
   },
   "peerDependencies": {
-    "@babel/core": "^7.21.4"
+    "@babel/core": "^7.21.8"
   },
   "engines": {
     "node": "^16.15.0 || ^18.12.0"

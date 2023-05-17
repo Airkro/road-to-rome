@@ -10,6 +10,7 @@
   "scripts": {
     "lint:staged": "nice-move lint staged",
     "prepare": "nice-move git hooks",
+    "snapshot": "ava --fail-fast -u",
     "start": "nodemon",
     "test": "ava --fail-fast"
   },
@@ -17,21 +18,21 @@
     "packages/*"
   ],
   "devDependencies": {
-    "@babel/core": "^7.21.4",
+    "@babel/core": "^7.21.8",
     "@bring-it/npm": "^0.1.1",
-    "@nice-move/cli": "^0.10.3",
-    "@nice-move/eslint-config-base": "^0.9.8",
-    "@nice-move/prettier-config": "^0.8.0",
+    "@nice-move/cli": "^0.10.8",
+    "@nice-move/eslint-config-base": "^0.9.11",
+    "@nice-move/prettier-config": "^0.8.1",
     "ava": "^5.2.0",
-    "eslint": "^8.38.0",
+    "eslint": "^8.40.0",
     "eslint-plugin-ava": "^14.0.0",
-    "garou": "^0.6.6",
-    "html-webpack-plugin": "^5.5.0",
+    "garou": "^0.6.8",
+    "html-webpack-plugin": "^5.5.1",
     "nodemon": "^2.0.22",
-    "prettier": "^2.8.7",
-    "webpack": "^5.78.0",
-    "webpack-cli": "^5.0.1",
-    "webpack-dev-server": "^4.13.2"
+    "prettier": "^2.8.8",
+    "webpack": "^5.82.1",
+    "webpack-cli": "^5.1.1",
+    "webpack-dev-server": "^4.15.0"
   },
   "engines": {
     "node": "^16.13.0 || ^18.12.0"
@@ -40,6 +41,9 @@
     "extends": "@nice-move/eslint-config-base"
   },
   "nice-move": {
+    "import-groups": [
+      "nice-move-preset"
+    ],
     "internal-regex": "^@road-to-rome/"
   },
   "nodemonConfig": {

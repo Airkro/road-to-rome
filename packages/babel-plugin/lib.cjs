@@ -13,7 +13,9 @@ exports.isRouteConfig = ({ filename, globs, cwd }) =>
   filename &&
   globs &&
   cwd &&
-  minimatch(normalize(filename), normalize(join(cwd, '**', globs)));
+  minimatch(normalize(filename), normalize(join(cwd, '**', globs)), {
+    dot: true,
+  });
 
 exports.find = ({ filename, globs }) => {
   const cwd = dirname(filename);

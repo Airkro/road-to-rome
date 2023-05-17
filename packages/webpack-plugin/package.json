@@ -27,18 +27,18 @@
   },
   "main": "index.cjs",
   "dependencies": {
-    "@babel/generator": "^7.21.1",
-    "@babel/types": "^7.21.2",
+    "@babel/generator": "^7.21.5",
+    "@babel/types": "^7.21.5",
     "globby": "^11.1.0",
     "lodash": "^4.17.21",
     "pascal-case": "^3.1.2",
-    "schema-utils": "^4.0.0",
+    "schema-utils": "^4.0.1",
     "slash": "^3.0.0",
     "slash-to-regexp": "^0.0.4"
   },
   "peerDependencies": {
-    "@road-to-rome/routes": "^0.2.2",
-    "webpack": "^5.65.0"
+    "@road-to-rome/routes": "^0.2.3",
+    "webpack": "^5.82.1"
   },
   "peerDependenciesMeta": {
     "webpack": {
@@ -46,7 +46,7 @@
     }
   },
   "engines": {
-    "node": "^14.17.0 || >=16.13.0"
+    "node": ">=16.13.0 || ^14.17.0"
   },
   "publishConfig": {
     "access": "public",
