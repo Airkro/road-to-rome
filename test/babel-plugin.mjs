@@ -12,11 +12,18 @@ const entry = url('fixture/route.config.js');
 const file1 = url('fixture/abc/route.config.js');
 const file2 = url('fixture/abc/efg/route.config.js');
 
+const plugin = '@road-to-rome/babel-plugin';
+
 function marco(t, filename) {
   const { code } = babel.transformFileSync(filename, {
-    plugins: [['@road-to-rome/babel-plugin', { entry }]],
     configFile: false,
     babelrc: false,
+    overrides: [
+      {
+        test: '**/route.config.js',
+        plugins: [[plugin, { root: url('fixture') }]],
+      },
+    ],
   });
 
   t.snapshot(code);

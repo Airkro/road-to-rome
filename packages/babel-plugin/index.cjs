@@ -23,24 +23,24 @@ function exportChildStatement(t, names) {
   );
 }
 
-function exportFoldStatement(t, { cwd, filename }) {
+function exportFoldStatement(t, { root, filename }) {
   return t.exportNamedDeclaration(
     t.variableDeclaration('const', [
       t.variableDeclarator(
         t.identifier('fold'),
         t.arrayExpression(
-          pathToFold({ cwd, filename }).map((item) => t.stringLiteral(item)),
+          pathToFold({ cwd: root, filename }).map((item) =>
+            t.stringLiteral(item),
+          ),
         ),
       ),
     ]),
   );
 }
 
-function getConfig(entry) {
-  const io = require.resolve(entry);
-
-  const globs = basename(io);
-  const cwd = dirname(io);
+function getConfig(filename) {
+  const globs = basename(filename);
+  const cwd = dirname(filename);
 
   return { globs, cwd };
 }
@@ -48,15 +48,15 @@ function getConfig(entry) {
 function plugin({ types: t }) {
   return {
     visitor: {
-      Program(path, { filename, opts: { entry } }) {
-        if (entry && typeof entry === 'string') {
-          const { globs, cwd } = getConfig(entry);
+      Program(path, { filename, opts: { root } }) {
+        if (filename && typeof filename === 'string') {
+          const { globs, cwd } = getConfig(filename);
 
           if (isRouteConfig({ filename, globs, cwd })) {
             const sets = find({ filename, globs });
 
             const fold = exportFoldStatement(t, {
-              cwd,
+              root,
               filename,
             });
 

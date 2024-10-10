@@ -6,7 +6,7 @@ const { minimatch } = require('minimatch');
 const slash = require('slash');
 
 function normalize(path) {
-  return slash(path).replace(/^[A-Za-z]+:/, '');
+  return slash(path).replace(/^[A-Z]+:/i, '');
 }
 
 exports.isRouteConfig = ({ filename, globs, cwd }) =>
@@ -23,10 +23,14 @@ exports.find = ({ filename, globs }) => {
   return globby
     .sync(`*/${globs}`, { cwd })
     .sort()
-    .map((file, index) => ({
-      name: `RouteConfig${index}`,
-      file: slash(`./${file}`),
-    }));
+    .map((file, index) => {
+      const idx = index < 9 ? `0${index + 1}` : index + 1;
+
+      return {
+        name: `RouteConfig${idx}`,
+        file: slash(`./${file}`),
+      };
+    });
 };
 
 exports.pathToFold = ({ cwd, filename }) =>

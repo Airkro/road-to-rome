@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "name": "@nice-move/config",
+  "version": "0.0.0",
+  "nice-move": {
+    "import-groups": [
+      "^@eaphone\\/"
+    ]
+  }
+}
