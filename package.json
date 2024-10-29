@@ -18,21 +18,20 @@
     "packages/*"
   ],
   "devDependencies": {
-    "@babel/core": "^7.25.7",
+    "@babel/core": "^7.26.0",
     "@bring-it/npm": "^0.5.9",
-    "@nice-move/all-in-base": "^0.2.4",
-    "ava": "^6.1.3",
+    "@nice-move/all-in-base": "^0.2.6",
+    "ava": "^6.2.0",
     "eslint": "^8.57.1",
     "eslint-plugin-ava": "^14.0.0",
-    "garou": "^0.8.0",
-    "html-webpack-plugin": "^5.6.0",
+    "garou": "^0.8.1",
+    "html-webpack-plugin": "^5.6.3",
     "nodemon": "^3.1.7",
     "prettier": "^3.3.3",
     "webpack": "^5.95.0",
-    "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "~5.0.4"
+    "webpack-cli": "^5.1.4"
   },
-  "packageManager": "npm@10.0.0",
+  "packageManager": "pnpm@9.12.2",
   "engines": {
     "node": ">=20.0.0 || ^16.13.0 || ^18.12.0"
   },
@@ -40,7 +39,6 @@
     "extends": "@nice-move/eslint-config-base"
   },
   "nice-move": {
-    "import-groups": "nice-move-preset",
     "internal-regex": "^@road-to-rome/"
   },
   "nodemonConfig": {

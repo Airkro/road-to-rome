@@ -1,6 +1,6 @@
 {
   "name": "@road-to-rome/webpack-plugin",
-  "version": "0.10.3",
+  "version": "0.10.4",
   "description": "Automatically generate routes by filename",
   "license": "MIT",
   "author": {
@@ -27,18 +27,18 @@
   },
   "main": "index.cjs",
   "dependencies": {
-    "@babel/generator": "^7.23.3",
-    "@babel/types": "^7.23.3",
+    "@babel/generator": "^7.26.0",
+    "@babel/types": "^7.26.0",
     "globby": "^11.1.0",
     "lodash": "^4.17.21",
     "pascal-case": "^3.1.2",
     "schema-utils": "^4.2.0",
     "slash": "^3.0.0",
-    "slash-to-regexp": "^0.0.4"
+    "slash-to-regexp": "^0.1.0"
   },
   "peerDependencies": {
     "@road-to-rome/routes": "^0.2.3",
-    "webpack": "^5.89.0"
+    "webpack": "^5.95.0"
   },
   "peerDependenciesMeta": {
     "webpack": {
