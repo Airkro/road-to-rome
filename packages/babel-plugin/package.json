@@ -32,13 +32,13 @@
     "slash": "^3.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.26.0"
+    "@babel/core": "^7.27.4"
   },
   "peerDependencies": {
-    "@babel/core": "^7.26.0"
+    "@babel/core": "^7.27.4"
   },
   "engines": {
-    "node": ">=20.0.0 || ^18.12.0"
+    "node": ">=22.0.0 || ^20.0.0"
   },
   "publishConfig": {
     "access": "public",

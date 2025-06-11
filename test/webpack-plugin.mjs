@@ -1,3 +1,6 @@
+import { join } from 'node:path';
+
+import { fileFinder } from '@road-to-rome/webpack-plugin/lib/file-finder.cjs';
 import { mergeFilter } from '@road-to-rome/webpack-plugin/lib/merge-filter.cjs';
 import test from 'ava';
 
@@ -25,4 +28,13 @@ test('exclude', (t) => {
       exclude: ['3'],
     })(sample),
   );
+});
+
+test('finder', async (t) => {
+  const io = await fileFinder({
+    globs: 'fixture/**/route.config.{ts,js}',
+    cwd: join(process.cwd(), 'test'),
+  });
+
+  t.snapshot(io);
 });

@@ -12,7 +12,7 @@ class RoadToRomePlugin {
 
     const {
       depth = 10,
-      globs = 'src/pages/**/route.config.js',
+      globs = 'src/pages/**/route.config.{ts,js}',
       filter,
       exclude,
       include,

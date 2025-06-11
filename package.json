@@ -12,34 +12,36 @@
     "prepare": "nice-move git hooks",
     "snapshot": "ava --fail-fast -u -w",
     "start": "nodemon",
-    "test": "ava --fail-fast"
+    "test": "ava --fail-fast",
+    "version:pin": "syncpack fix-mismatches"
   },
   "workspaces": [
     "packages/*"
   ],
   "devDependencies": {
-    "@babel/core": "^7.26.0",
-    "@bring-it/npm": "^0.5.9",
-    "@nice-move/all-in-base": "^0.2.6",
-    "ava": "^6.2.0",
-    "eslint": "^8.57.1",
-    "eslint-plugin-ava": "^14.0.0",
-    "garou": "^0.8.1",
+    "@babel/core": "^7.27.4",
+    "@bring-it/cli": "^0.10.0",
+    "@bring-it/npm": "^0.6.1",
+    "@nice-move/all-in-base": "^0.4.30",
+    "@nice-move/syncpack-config": "^0.4.0",
+    "ava": "^6.4.0",
+    "eslint": "^9.28.0",
+    "eslint-plugin-ava": "^15.0.1",
+    "garou": "^0.9.8",
     "html-webpack-plugin": "^5.6.3",
-    "nodemon": "^3.1.7",
-    "prettier": "^3.3.3",
-    "webpack": "^5.95.0",
-    "webpack-cli": "^5.1.4"
+    "nodemon": "^3.1.10",
+    "prettier": "^3.5.3",
+    "syncpack": "^13.0.4",
+    "typescript": "~5.8.3",
+    "webpack": "^5.99.9",
+    "webpack-cli": "^6.0.1"
   },
-  "packageManager": "pnpm@9.12.2",
+  "peerDependencies": {
+    "@road-to-rome/webpack-plugin": "workspace:^"
+  },
+  "packageManager": "pnpm@10.12.1",
   "engines": {
-    "node": ">=20.0.0 || ^16.13.0 || ^18.12.0"
-  },
-  "eslintConfig": {
-    "extends": "@nice-move/eslint-config-base"
-  },
-  "nice-move": {
-    "internal-regex": "^@road-to-rome/"
+    "node": ">=22.0.0 || ^20.0.0"
   },
   "nodemonConfig": {
     "delay": 5,
