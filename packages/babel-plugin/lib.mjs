@@ -1,27 +1,25 @@
-'use strict';
+import { dirname, join, relative } from 'node:path';
 
-const { join, relative, dirname } = require('node:path');
-const globby = require('globby');
-const { minimatch } = require('minimatch');
-const slash = require('slash');
+import { globbySync } from 'globby';
+import picomatch from 'picomatch';
+import slash from 'slash';
 
 function normalize(path) {
   return slash(path).replace(/^[A-Z]+:/i, '');
 }
 
-exports.isRouteConfig = ({ filename, globs, cwd }) =>
+export const isRouteConfig = ({ filename, globs, cwd }) =>
   filename &&
   globs &&
   cwd &&
-  minimatch(normalize(filename), normalize(join(cwd, '**', globs)), {
+  picomatch(normalize(filename), normalize(join(cwd, '**', globs)), {
     dot: true,
   });
 
-exports.find = ({ filename, globs }) => {
+export const find = ({ filename, globs }) => {
   const cwd = dirname(filename);
 
-  return globby
-    .sync(`*/${globs}`, { cwd })
+  return globbySync(`*/${globs}`, { cwd })
     .sort()
     .map((file, index) => {
       const idx = index < 9 ? `0${index + 1}` : index + 1;
@@ -33,7 +31,7 @@ exports.find = ({ filename, globs }) => {
     });
 };
 
-exports.pathToFold = ({ cwd, filename }) =>
+export const pathToFold = ({ cwd, filename }) =>
   slash(dirname(relative(cwd, filename)))
     .split('/')
     .map((item) => (item.includes('@') ? item.split('@')[1] : item));

@@ -64,14 +64,14 @@ importers:
   packages/babel-plugin:
     dependencies:
       globby:
-        specifier: ^11.1.0
-        version: 11.1.0
-      minimatch:
-        specifier: ^9.0.5
-        version: 9.0.5
+        specifier: ^14.1.0
+        version: 14.1.0
+      picomatch:
+        specifier: ^4.0.2
+        version: 4.0.2
       slash:
-        specifier: ^3.0.0
-        version: 3.0.0
+        specifier: ^5.1.0
+        version: 5.1.0
     devDependencies:
       '@babel/core':
         specifier: ^7.27.4

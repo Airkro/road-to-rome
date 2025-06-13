@@ -1,6 +1,6 @@
 import { fileURLToPath } from 'node:url';
 
-import babel from '@babel/core';
+import { transformFileAsync } from '@babel/core';
 import test from 'ava';
 
 function url(path) {
@@ -14,8 +14,8 @@ const file2 = url('fixture/abc/efg/route.config.js');
 
 const plugin = '@road-to-rome/babel-plugin';
 
-function marco(t, filename) {
-  const { code } = babel.transformFileSync(filename, {
+async function marco(t, filename) {
+  const { code } = await transformFileAsync(filename, {
     configFile: false,
     babelrc: false,
     overrides: [

@@ -1,9 +1,8 @@
-'use strict';
+import { basename, dirname } from 'node:path';
 
-const { dirname, basename } = require('node:path');
-const { find, pathToFold, isRouteConfig } = require('./lib.cjs');
+// import t from '@babel/types';
 
-// const t = require('@babel/types');
+import { find, isRouteConfig, pathToFold } from './lib.mjs';
 
 function importSourceStatement(t, { name, file }) {
   return t.importDeclaration(
@@ -29,9 +28,10 @@ function exportFoldStatement(t, { root, filename }) {
       t.variableDeclarator(
         t.identifier('fold'),
         t.arrayExpression(
-          pathToFold({ cwd: root, filename }).map((item) =>
-            t.stringLiteral(item),
-          ),
+          pathToFold({
+            cwd: root,
+            filename,
+          }).map((item) => t.stringLiteral(item)),
         ),
       ),
     ]),
@@ -42,19 +42,30 @@ function getConfig(filename) {
   const globs = basename(filename);
   const cwd = dirname(filename);
 
-  return { globs, cwd };
+  return {
+    globs,
+    cwd,
+  };
 }
 
-function plugin({ types: t }) {
+export default function plugin({ types: t }) {
   return {
     visitor: {
       Program(path, { filename, opts: { root } }) {
         if (filename && typeof filename === 'string') {
           const { globs, cwd } = getConfig(filename);
 
-          if (isRouteConfig({ filename, globs, cwd })) {
-            const sets = find({ filename, globs });
-
+          if (
+            isRouteConfig({
+              filename,
+              globs,
+              cwd,
+            })
+          ) {
+            const sets = find({
+              filename,
+              globs,
+            });
             const fold = exportFoldStatement(t, {
               root,
               filename,
@@ -62,14 +73,15 @@ function plugin({ types: t }) {
 
             if (sets.length > 0) {
               const imports = sets.map(({ name, file }) =>
-                importSourceStatement(t, { name, file }),
+                importSourceStatement(t, {
+                  name,
+                  file,
+                }),
               );
-
               const exporter = exportChildStatement(
                 t,
                 sets.map(({ name }) => name),
               );
-
               path.unshiftContainer('body', exporter);
               path.unshiftContainer('body', imports);
             }
@@ -81,5 +93,3 @@ function plugin({ types: t }) {
     },
   };
 }
-
-module.exports = plugin;

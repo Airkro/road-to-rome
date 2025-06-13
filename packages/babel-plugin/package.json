@@ -1,6 +1,6 @@
 {
   "name": "@road-to-rome/babel-plugin",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Automatically generate routes by filename",
   "license": "MIT",
   "author": {
@@ -19,17 +19,18 @@
   "homepage": "https://github.com/airkro/road-to-rome/tree/master/packages/babel-plugin",
   "repository": {
     "type": "git",
-    "url": "https://github.com/airkro/road-to-rome.git",
+    "url": "git+https://github.com/airkro/road-to-rome.git",
     "directory": "packages/babel-plugin"
   },
   "bugs": {
     "url": "https://github.com/airkro/road-to-rome/issues"
   },
-  "main": "index.cjs",
+  "main": "index.mjs",
+  "type": "module",
   "dependencies": {
-    "globby": "^11.1.0",
-    "minimatch": "^9.0.5",
-    "slash": "^3.0.0"
+    "globby": "^14.1.0",
+    "picomatch": "^4.0.2",
+    "slash": "^5.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.27.4"
