@@ -1,6 +1,6 @@
 import { join } from 'node:path';
 
-import { fileFinder } from '@road-to-rome/webpack-plugin/lib/file-finder.cjs';
+import { fileFinder } from '@road-to-rome/webpack-plugin/lib/file-finder.mjs';
 import { mergeFilter } from '@road-to-rome/webpack-plugin/lib/merge-filter.cjs';
 import test from 'ava';
 

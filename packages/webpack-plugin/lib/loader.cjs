@@ -1,7 +1,7 @@
 'use strict';
 
 const { pathParser } = require('./lib.cjs');
-const { fileFinder } = require('./file-finder.cjs');
+const { fileFinder } = require('./file-finder.mjs');
 
 module.exports = function loader(_, map, meta) {
   this.cacheable(false);

@@ -1,4 +1,4 @@
-import { basename, dirname } from 'node:path';
+import { basename, dirname, extname } from 'node:path';
 
 // import t from '@babel/types';
 
@@ -40,10 +40,11 @@ function exportFoldStatement(t, { root, filename }) {
 
 function getConfig(filename) {
   const globs = basename(filename);
+  const ext = extname(filename);
   const cwd = dirname(filename);
 
   return {
-    globs,
+    globs: globs.replace(ext, '.{js,jsx,ts,tsx}'),
     cwd,
   };
 }

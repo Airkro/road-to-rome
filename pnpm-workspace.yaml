@@ -1,2 +1,5 @@
 packages:
   - packages/*
+
+engineStrict: true
+shamefullyHoist: true
