@@ -7,7 +7,8 @@ function url(path) {
   return fileURLToPath(new URL(path, import.meta.url).href);
 }
 
-const entry = url('fixture/route.config.js');
+const entry1 = url('fixture/route.config.js');
+const entry2 = url('fixture/route.config.ts');
 
 const file1 = url('fixture/abc/route.config.js');
 const file2 = url('fixture/abc/efg/route.config.js');
@@ -20,8 +21,11 @@ async function marco(t, filename) {
     babelrc: false,
     overrides: [
       {
-        test: '**/route.config.js',
-        plugins: [[plugin, { root: url('fixture') }]],
+        include: ['**/route.config.js', '**/route.config.ts'],
+        plugins: [
+          '@babel/plugin-syntax-typescript',
+          [plugin, { root: url('fixture') }],
+        ],
       },
     ],
   });
@@ -29,7 +33,9 @@ async function marco(t, filename) {
   t.snapshot(code);
 }
 
-test('entry', marco, entry);
+test('entry1', marco, entry1);
+
+test('entry2', marco, entry2);
 
 test('file1', marco, file1);
 

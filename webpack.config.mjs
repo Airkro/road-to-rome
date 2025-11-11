@@ -1,9 +1,7 @@
-'use strict';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import { RoadToRomePlugin } from '@road-to-rome/webpack-plugin';
 
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const RoadToRomePlugin = require('@road-to-rome/webpack-plugin');
-
-module.exports = {
+export default {
   mode: 'development',
   devtool: 'source-map',
   devServer: {

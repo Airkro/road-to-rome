@@ -7,6 +7,7 @@
     "name": "Eric Chen"
   },
   "scripts": {
+    "lint:eslint": "eslint . --quiet --fix --concurrency=auto",
     "lint:staged": "nice-move lint staged",
     "prepare": "nice-move git hooks",
     "snapshot": "ava --fail-fast -u -w",
@@ -36,9 +37,10 @@
     "webpack-cli": "^6.0.1"
   },
   "peerDependencies": {
+    "@road-to-rome/routes": "workspace:^",
     "@road-to-rome/webpack-plugin": "workspace:^"
   },
-  "packageManager": "pnpm@10.20.0",
+  "packageManager": "pnpm@10.21.0",
   "engines": {
     "node": ">=22.0.0 || ^20.0.0"
   },

@@ -20,7 +20,7 @@ export const find = ({ filename, globs }) => {
   const cwd = dirname(filename);
 
   return globbySync(`*/${globs}`, { cwd })
-    .sort()
+    .toSorted()
     .map((file, index) => {
       const idx = index < 9 ? `0${index + 1}` : index + 1;
 

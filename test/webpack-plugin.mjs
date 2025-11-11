@@ -1,7 +1,7 @@
 import { join } from 'node:path';
 
 import { fileFinder } from '@road-to-rome/webpack-plugin/lib/file-finder.mjs';
-import { mergeFilter } from '@road-to-rome/webpack-plugin/lib/merge-filter.cjs';
+import { mergeFilter } from '@road-to-rome/webpack-plugin/lib/merge-filter.mjs';
 import test from 'ava';
 
 const sample = [{ path: '1' }, { path: '2' }, { path: '3' }, { path: '4' }];
@@ -36,5 +36,5 @@ test('finder', async (t) => {
     cwd: join(process.cwd(), 'test'),
   });
 
-  t.snapshot(io);
+  t.snapshot(io.toSorted());
 });

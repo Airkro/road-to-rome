@@ -1,8 +1,6 @@
-'use strict';
+import { validate } from 'schema-utils';
 
-const { validate } = require('schema-utils');
-
-const schema = {
+export const schema = {
   type: 'object',
   additionalProperties: false,
   properties: {
@@ -39,9 +37,8 @@ const schema = {
   },
 };
 
-module.exports = {
-  schema,
-  validator(options, pluginName) {
-    validate(schema, options, { name: pluginName });
-  },
-};
+export function validator(options, pluginName) {
+  validate(schema, options, {
+    name: pluginName,
+  });
+}

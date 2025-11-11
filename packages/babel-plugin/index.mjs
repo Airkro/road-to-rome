@@ -22,6 +22,49 @@ function exportChildStatement(t, names) {
   );
 }
 
+function replaceOrInsertExport(programPath, exporter, exportName) {
+  const bodyPaths = programPath.get('body') || [];
+
+  for (const stmtPath of bodyPaths) {
+    if (
+      typeof stmtPath.isExportNamedDeclaration === 'function' &&
+      stmtPath.isExportNamedDeclaration()
+    ) {
+      const { node } = stmtPath;
+      // case: export const <name> = ...
+      const decl = node.declaration;
+
+      if (decl && decl.type === 'VariableDeclaration') {
+        for (const d of decl.declarations) {
+          // identifier or pattern
+          if (d.id && d.id.name === exportName) {
+            stmtPath.replaceWith(exporter);
+
+            return;
+          }
+        }
+      }
+
+      // case: export { name } or export { name as something }
+      if (
+        node.specifiers &&
+        node.specifiers.some(
+          (s) =>
+            (s.exported && s.exported.name === exportName) ||
+            (s.local && s.local.name === exportName),
+        )
+      ) {
+        stmtPath.replaceWith(exporter);
+
+        return;
+      }
+    }
+  }
+
+  // not found -> insert at top
+  programPath.unshiftContainer('body', exporter);
+}
+
 function exportFoldStatement(t, { root, filename }) {
   return t.exportNamedDeclaration(
     t.variableDeclaration('const', [
@@ -83,11 +126,13 @@ export default function plugin({ types: t }) {
                 t,
                 sets.map(({ name }) => name),
               );
-              path.unshiftContainer('body', exporter);
+              // replace existing `export ... child` if present, otherwise insert
+              replaceOrInsertExport(path, exporter, 'child');
               path.unshiftContainer('body', imports);
             }
 
-            path.unshiftContainer('body', fold);
+            // replace or insert `export const fold`
+            replaceOrInsertExport(path, fold, 'fold');
           }
         }
       },

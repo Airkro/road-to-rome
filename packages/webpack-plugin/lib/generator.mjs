@@ -1,8 +1,6 @@
-'use strict';
-
-const generator = require('@babel/generator');
-const t = require('@babel/types');
-const { pascalCase } = require('pascal-case');
+import generator from '@babel/generator';
+import t from '@babel/types';
+import { pascalCase } from 'pascal-case';
 
 function variable(items) {
   return t.exportNamedDeclaration(
@@ -59,23 +57,19 @@ function logger(items) {
   );
 }
 
-function generate(list) {
+export function generate(list) {
   const items = list.map(({ source, to = source, path = source, ...rest }) => ({
     ...rest,
     source,
     path,
     to: pascalCase(to),
   }));
-
   const ast = t.file(
     t.program([...statement(items), variable(items), logger(items)]),
   );
-
   const { code } = generator.default(ast, {}, '');
 
   return list.length > 0
     ? code.replace('export const', '\nexport const')
     : code;
 }
-
-module.exports = { generate };

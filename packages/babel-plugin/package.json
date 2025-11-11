@@ -1,11 +1,10 @@
 {
   "name": "@road-to-rome/babel-plugin",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Automatically generate routes by filename",
   "license": "MIT",
   "author": {
-    "name": "Eric Chen",
-    "email": "airkro@qq.com"
+    "name": "Eric Chen"
   },
   "keywords": [
     "babel",

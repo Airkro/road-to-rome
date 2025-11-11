@@ -1,15 +1,15 @@
-'use strict';
-
-const slashToRegexp = require('slash-to-regexp');
-const { validator } = require('./lib/validator.cjs');
-const { mergeFilter } = require('./lib/merge-filter.cjs');
+import slashToRegexp from 'slash-to-regexp';
+import { validator } from './lib/validator.mjs';
+import { mergeFilter } from './lib/merge-filter.mjs';
+import { createRequire } from 'node:module';
 
 const name = 'RoadToRomePlugin';
 
-class RoadToRomePlugin {
+const require = createRequire(import.meta.url);
+
+export class RoadToRomePlugin {
   constructor(options = {}) {
     validator(options, name);
-
     const {
       depth = 10,
       globs = 'src/pages/**/route.config.{ts,js}',
@@ -17,11 +17,14 @@ class RoadToRomePlugin {
       exclude,
       include,
     } = options;
-
     this.options = {
       globs,
       depth,
-      filter: mergeFilter({ filter, include, exclude }),
+      filter: mergeFilter({
+        filter,
+        include,
+        exclude,
+      }),
     };
   }
 
@@ -41,5 +44,3 @@ class RoadToRomePlugin {
     // });
   }
 }
-
-module.exports = RoadToRomePlugin;

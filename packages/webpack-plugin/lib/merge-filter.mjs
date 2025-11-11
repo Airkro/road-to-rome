@@ -1,6 +1,4 @@
-'use strict';
-
-function mergeFilter({ filter, include = [], exclude = [] }) {
+export function mergeFilter({ filter, include = [], exclude = [] }) {
   if (!filter && include.length === 0 && exclude.length === 0) {
     return (data) => data;
   }
@@ -21,5 +19,3 @@ function mergeFilter({ filter, include = [], exclude = [] }) {
 
   return (data = []) => io.reduce((tmp, func) => func(tmp), data);
 }
-
-module.exports = { mergeFilter };
