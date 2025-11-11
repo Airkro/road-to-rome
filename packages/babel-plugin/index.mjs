@@ -61,8 +61,8 @@ function replaceOrInsertExport(programPath, exporter, exportName) {
     }
   }
 
-  // not found -> insert at top
-  programPath.unshiftContainer('body', exporter);
+  // not found -> insert at bottom
+  programPath.pushContainer('body', exporter);
 }
 
 function exportFoldStatement(t, { root, filename }) {
