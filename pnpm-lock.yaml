@@ -26,7 +26,7 @@ importers:
         version: 0.9.3(@bring-it/cli@0.11.1)
       '@nice-move/all-in-base':
         specifier: ^0.6.19
-        version: 0.6.19(@babel/core@7.28.5)(@typescript-eslint/parser@8.46.4(eslint@9.39.1)(typescript@5.9.3))(eslint@9.39.1)(garou@0.9.15(eslint@9.39.1)(typescript@5.9.3))(postcss@8.4.47)(prettier@3.6.2)(typescript@5.9.3)
+        version: 0.6.19(@babel/core@7.28.5)(@typescript-eslint/parser@8.46.4(eslint@9.39.1)(typescript@5.9.3))(eslint@9.39.1)(garou@0.9.16(eslint@9.39.1)(typescript@5.9.3))(postcss@8.4.47)(prettier@3.6.2)(typescript@5.9.3)
       '@nice-move/syncpack-config':
         specifier: ^0.4.1
         version: 0.4.1(syncpack@13.0.4(typescript@5.9.3))
@@ -40,14 +40,14 @@ importers:
         specifier: ^15.1.0
         version: 15.1.0(eslint@9.39.1)
       garou:
-        specifier: ^0.9.15
-        version: 0.9.15(eslint@9.39.1)(typescript@5.9.3)
+        specifier: ^0.9.16
+        version: 0.9.16(eslint@9.39.1)(typescript@5.9.3)
       html-webpack-plugin:
         specifier: ^5.6.4
         version: 5.6.4(webpack@5.102.1)
       nodemon:
-        specifier: ^3.1.10
-        version: 3.1.10
+        specifier: ^3.1.11
+        version: 3.1.11
       prettier:
         specifier: ^3.6.2
         version: 3.6.2
@@ -1476,13 +1476,13 @@ packages:
   functions-have-names@1.2.3:
     resolution: {integrity: sha512-xckBUXyTIqT97tq2x2AMb+g163b5JFysYk0x4qxNFwbfQkmNZoiRHb6sPzI9/QV33WeuvVYBUIiD4NzNIyqaRQ==}
 
-  garou@0.9.15:
-    resolution: {integrity: sha512-YfTtMd9Et4vGfih0R0hnPwSyRmYj520/Z7yM9cdIUwmnLk47az8S0h+Qhii74uh2wqbGW2WYz0aCEyVWvktR7Q==}
-    engines: {node: ^20.18.0 || ^22.11.0}
+  garou@0.9.16:
+    resolution: {integrity: sha512-S2LPQp+Payzyd1VGaviyfc10S4I4UI8BeYiLcRbGk9utZx2uTnc/ePLY7JuCl9XTwjOpWDFEEudnlx+ul/cbAA==}
+    engines: {node: '>=22.18.0'}
     hasBin: true
     peerDependencies:
-      eslint: ^9.35.0
-      typescript: ~5.9.2
+      eslint: ^9.39.1
+      typescript: ~5.9.3
     peerDependenciesMeta:
       typescript:
         optional: true
@@ -2180,8 +2180,8 @@ packages:
   node-releases@2.0.27:
     resolution: {integrity: sha512-nmh3lCkYZ3grZvqcCH+fjmQ7X+H0OeZgP40OierEaAptX4XofMh5kwNbWh7lBduUzCcV/8kZ+NDLCwm2iorIlA==}
 
-  nodemon@3.1.10:
-    resolution: {integrity: sha512-WDjw3pJ0/0jMFmyNDp3gvY2YizjLmmOUQo6DEBY+JgdvW/yQ9mEeSw6H5ythl5Ny2ytb7f9C2nIbjSxMNzbJXw==}
+  nodemon@3.1.11:
+    resolution: {integrity: sha512-is96t8F/1//UHAjNPHpbsNY46ELPpftGUoSVNXwUfMk/qdjSylYrWSu1XavVTBOn526kFiOR733ATgNBCQyH0g==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -3274,7 +3274,7 @@ snapshots:
       - encoding
       - supports-color
 
-  '@nice-move/all-in-base@0.6.19(@babel/core@7.28.5)(@typescript-eslint/parser@8.46.4(eslint@9.39.1)(typescript@5.9.3))(eslint@9.39.1)(garou@0.9.15(eslint@9.39.1)(typescript@5.9.3))(postcss@8.4.47)(prettier@3.6.2)(typescript@5.9.3)':
+  '@nice-move/all-in-base@0.6.19(@babel/core@7.28.5)(@typescript-eslint/parser@8.46.4(eslint@9.39.1)(typescript@5.9.3))(eslint@9.39.1)(garou@0.9.16(eslint@9.39.1)(typescript@5.9.3))(postcss@8.4.47)(prettier@3.6.2)(typescript@5.9.3)':
     dependencies:
       '@nice-move/cli': 0.11.27
       '@nice-move/eslint-config-base': 0.13.9(@typescript-eslint/parser@8.46.4(eslint@9.39.1)(typescript@5.9.3))(eslint@9.39.1)(typescript@5.9.3)
@@ -3283,7 +3283,7 @@ snapshots:
       eslint: 9.39.1
       prettier: 3.6.2
     optionalDependencies:
-      garou: 0.9.15(eslint@9.39.1)(typescript@5.9.3)
+      garou: 0.9.16(eslint@9.39.1)(typescript@5.9.3)
       typescript: 5.9.3
     transitivePeerDependencies:
       - '@babel/core'
@@ -4665,7 +4665,7 @@ snapshots:
 
   functions-have-names@1.2.3: {}
 
-  garou@0.9.15(eslint@9.39.1)(typescript@5.9.3):
+  garou@0.9.16(eslint@9.39.1)(typescript@5.9.3):
     dependencies:
       '@stylistic/eslint-plugin': 5.5.0(eslint@9.39.1)
       '@typescript-eslint/parser': 8.46.4(eslint@9.39.1)(typescript@5.9.3)
@@ -5508,7 +5508,7 @@ snapshots:
 
   node-releases@2.0.27: {}
 
-  nodemon@3.1.10:
+  nodemon@3.1.11:
     dependencies:
       chokidar: 3.6.0
       debug: 4.4.3(supports-color@5.5.0)

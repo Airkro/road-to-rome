@@ -33,7 +33,7 @@ export class RoadToRomePlugin {
       include: slashToRegexp('/node_modules/@road-to-rome/routes/index.js'),
       use: [
         {
-          loader: require.resolve('./lib/loader.cjs'),
+          loader: require.resolve('./lib/loader.mjs'),
           options: this.options,
         },
       ],

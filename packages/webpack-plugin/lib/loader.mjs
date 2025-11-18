@@ -1,7 +1,7 @@
 import { pathParser } from './lib.mjs';
 import { fileFinder } from './file-finder.mjs';
 
-export function loader(_, map, meta) {
+export default function loader(_, map, meta) {
   this.cacheable(false);
   const logger = this._compiler.getInfrastructureLogger('road-to-rome');
   const { globs, depth, filter } = this.getOptions();
