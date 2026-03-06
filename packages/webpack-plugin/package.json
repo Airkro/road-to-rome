@@ -27,18 +27,18 @@
   "main": "index.mjs",
   "type": "module",
   "dependencies": {
-    "@babel/generator": "^7.28.5",
-    "@babel/types": "^7.28.5",
-    "globby": "^15.0.0",
-    "lodash": "^4.17.21",
-    "pascal-case": "^3.1.2",
+    "@babel/generator": "^7.29.1",
+    "@babel/types": "^7.29.0",
+    "change-case": "^5.4.4",
+    "globby": "^16.1.1",
+    "lodash": "^4.17.23",
     "schema-utils": "^4.3.3",
     "slash": "^5.1.0",
-    "slash-to-regexp": "^0.1.0"
+    "slash-to-regexp": "^0.2.0"
   },
   "peerDependencies": {
     "@road-to-rome/routes": "workspace:^",
-    "webpack": "^5.102.1"
+    "webpack": "^5.105.4"
   },
   "peerDependenciesMeta": {
     "webpack": {
@@ -46,7 +46,7 @@
     }
   },
   "engines": {
-    "node": ">=22.0.0 || ^20.0.0"
+    "node": ">=24.0.0"
   },
   "publishConfig": {
     "access": "public",

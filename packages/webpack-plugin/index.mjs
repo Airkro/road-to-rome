@@ -1,4 +1,4 @@
-import slashToRegexp from 'slash-to-regexp';
+import { slashToRegexp } from 'slash-to-regexp';
 import { validator } from './lib/validator.mjs';
 import { mergeFilter } from './lib/merge-filter.mjs';
 import { createRequire } from 'node:module';

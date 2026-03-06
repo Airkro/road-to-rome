@@ -27,18 +27,18 @@
   "main": "index.mjs",
   "type": "module",
   "dependencies": {
-    "globby": "^15.0.0",
+    "globby": "^16.1.1",
     "picomatch": "^4.0.3",
     "slash": "^5.1.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.28.5"
+    "@babel/core": "^7.29.0"
   },
   "peerDependencies": {
-    "@babel/core": "^7.28.5"
+    "@babel/core": "^7.29.0"
   },
   "engines": {
-    "node": ">=22.0.0 || ^20.0.0"
+    "node": ">=24.0.0"
   },
   "publishConfig": {
     "access": "public",

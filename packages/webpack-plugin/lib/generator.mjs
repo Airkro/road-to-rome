@@ -1,6 +1,6 @@
 import generator from '@babel/generator';
 import t from '@babel/types';
-import { pascalCase } from 'pascal-case';
+import { pascalCase } from 'change-case';
 
 function variable(items) {
   return t.exportNamedDeclaration(

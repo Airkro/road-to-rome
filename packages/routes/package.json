@@ -18,7 +18,7 @@
   "homepage": "https://github.com/airkro/road-to-rome/tree/master/packages/routes",
   "repository": {
     "type": "git",
-    "url": "https://github.com/airkro/road-to-rome.git",
+    "url": "git+https://github.com/airkro/road-to-rome.git",
     "directory": "packages/routes"
   },
   "bugs": {
@@ -28,7 +28,7 @@
   "type": "module",
   "sideEffects": false,
   "engines": {
-    "node": ">=22.0.0 || ^20.0.0"
+    "node": ">=24.0.0"
   },
   "publishConfig": {
     "access": "public",

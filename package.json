@@ -6,11 +6,14 @@
   "author": {
     "name": "Eric Chen"
   },
+  "type": "module",
   "scripts": {
     "lint:eslint": "eslint . --quiet --fix --concurrency=auto",
     "lint:staged": "nice-move lint staged",
+    "lint:type": "tsc -p tsconfig.json",
+    "lint:version": "syncpack lint",
     "prepare": "nice-move git hooks",
-    "snapshot": "ava --fail-fast -u -w",
+    "snapshot": "ava --fail-fast -u",
     "start": "nodemon",
     "test": "ava --fail-fast",
     "version:pin": "syncpack fix-mismatches"
@@ -19,39 +22,46 @@
     "packages/*"
   ],
   "devDependencies": {
-    "@babel/core": "^7.28.5",
+    "@babel/core": "^7.29.0",
     "@bring-it/cli": "^0.11.1",
     "@bring-it/npm": "^0.9.3",
-    "@nice-move/all-in-base": "^0.6.19",
-    "@nice-move/syncpack-config": "^0.4.1",
+    "@nice-move/all-in-base": "^0.6.40",
+    "@nice-move/syncpack-config": "^0.4.2",
     "ava": "^6.4.1",
-    "eslint": "^9.39.1",
+    "eslint": "^9.39.2",
     "eslint-plugin-ava": "^15.1.0",
-    "garou": "^0.9.16",
-    "html-webpack-plugin": "^5.6.4",
-    "nodemon": "^3.1.11",
-    "prettier": "^3.6.2",
+    "garou": "^0.9.17",
+    "html-webpack-plugin": "^5.6.6",
+    "nodemon": "^3.1.14",
+    "prettier": "~3.8.0",
     "syncpack": "^13.0.4",
     "typescript": "~5.9.3",
-    "webpack": "^5.102.1",
+    "webpack": "^5.105.4",
     "webpack-cli": "^6.0.1"
   },
   "peerDependencies": {
     "@road-to-rome/routes": "workspace:^",
     "@road-to-rome/webpack-plugin": "workspace:^"
   },
-  "packageManager": "pnpm@10.22.0",
+  "packageManager": "pnpm@10.30.3",
   "engines": {
-    "node": ">=22.0.0 || ^20.0.0"
+    "node": ">=24.0.0",
+    "pnpm": "^10.30.3"
+  },
+  "ava": {
+    "extensions": [
+      "mts",
+      "mjs"
+    ]
   },
   "nodemonConfig": {
     "delay": 5,
-    "exec": "webpack serve",
+    "exec": "webpack watch",
     "ext": "js,cjs,json",
     "watch": [
       "./packages/**/*",
       "./tools/**/*",
-      "webpack.config.cjs"
+      "webpack.config.mjs"
     ]
   },
   "prettier": "@nice-move/prettier-config"
